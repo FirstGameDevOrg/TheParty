@@ -9,13 +9,13 @@
 #include "AITask_MoveToNode.h"
 #include "AITask_TurnTo.h"
 
-//¹¹Ôìº¯Êý
+//ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
 AChessPlayerController::AChessPlayerController()
 {
 	this->bShowMouseCursor = true;
 }
 
-//°ó¶¨°´¼ü
+//ï¿½ó¶¨°ï¿½ï¿½ï¿½
 void AChessPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -23,12 +23,12 @@ void AChessPlayerController::SetupInputComponent()
 	InputComponent->BindAction("RightClick", IE_Pressed, this, &AChessPlayerController::HandleRightClick);
 }
 
-//»ñÈ¡ÆåÅÌ
+//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 AGridMap* AChessPlayerController::GetBattleMap()
 {
 	if (BattleMap)
 		return BattleMap;
-	//Ê¹ÓÃµü´úÆ÷±éÀú
+	//Ê¹ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for (TActorIterator<AGridMap> It(GetWorld()); It; ++It)
 	{
 		if (!*It)
@@ -39,7 +39,7 @@ AGridMap* AChessPlayerController::GetBattleMap()
 	return BattleMap;
 }
 
-//Ë¢ÐÂÒÔµã»÷Æå¸ñ
+//Ë¢ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½ï¿½ï¿½
 void AChessPlayerController::FlushCheckNodes()
 {
 	if (!GetBattleMap())
@@ -47,7 +47,7 @@ void AChessPlayerController::FlushCheckNodes()
 	switch (DebugMode)
 	{
 	case EChessDebugMode::DebugPath:
-		//³¬¹ý2¸öÑ¡ÖÐÆå¸ñ¾ÍÖØÖÃ²ÄÖÊ
+		//ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½
 		if (SelectedNodes.Num() >= 2)
 		{
 			SelectedNodes.Reset();
@@ -57,7 +57,7 @@ void AChessPlayerController::FlushCheckNodes()
 	case EChessDebugMode::DebugPawn:
 	case EChessDebugMode::DebugTaskMove:
 	case EChessDebugMode::DebugTaskRotate:
-		//³¬¹ý1¸öÑ¡ÖÐÆå¸ñ¾ÍÖØÖÃ²ÄÖÊ
+		//ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½
 		if (SelectedNodes.Num() >= 1)
 		{
 			SelectedNodes.Reset();
@@ -70,16 +70,16 @@ void AChessPlayerController::FlushCheckNodes()
 	}
 }
 
-//»ñÈ¡Êó±ê¶ÔÓ¦ÆåÅÌµÄÎ»ÖÃ
+//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ìµï¿½Î»ï¿½ï¿½
 FVector AChessPlayerController::GetMouseCursorPosition() const
 {
 	if (!BattleMap)
 		return FVector::ZeroVector;
 	FVector WorldLocation, WorldDirection;
-	//ÆÁÄ»×ø±ê×ªÊÀ½ç×ø±ê£¬»Ø´«×ø±êºÍ·½Ïò
+	//ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê£¬ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½
 	if (DeprojectMousePositionToWorld(WorldLocation, WorldDirection))
 	{
-		//»ñÈ¡ZÖá²îÖµ
+		//ï¿½ï¿½È¡Zï¿½ï¿½ï¿½Öµ
 		float tScale = BattleMap->GetActorLocation().Z - WorldLocation.Z;
 		tScale /= WorldDirection.Z;
 		WorldLocation += tScale * WorldDirection;
@@ -88,7 +88,7 @@ FVector AChessPlayerController::GetMouseCursorPosition() const
 	return FVector::ZeroVector;
 }
 
-//×ó¼üÊÂ¼þ
+//ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 void AChessPlayerController::HandleLeftClick()
 {
 	switch (DebugMode)
@@ -109,17 +109,17 @@ void AChessPlayerController::HandleLeftClick()
 	}
 }
 
-//ÓÒ¼üÊÂ¼þ
+//ï¿½Ò¼ï¿½ï¿½Â¼ï¿½
 void AChessPlayerController::HandleRightClick()
 {
 	if (!GetBattleMap())
 		return;
 	FlushCheckNodes();
-	//»ñÈ¡Ñ¡ÖÐÆå¸ñ
+	//ï¿½ï¿½È¡Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½
 	UGridNode* tHitNode = BattleMap->CheckHitNode(GetMouseCursorPosition());
 	if (tHitNode)
 	{
-		//Í¨ÐÐ×´Ì¬ÇÐ»»
+		//Í¨ï¿½ï¿½×´Ì¬ï¿½Ð»ï¿½
 		tHitNode->PassFlag = tHitNode->PassFlag == ENodePassFlag::Pass ? ENodePassFlag::Block : ENodePassFlag::Pass;
 		BattleMap->ResetNodeMaterial(tHitNode);
 	}
@@ -131,15 +131,15 @@ void AChessPlayerController::HandleDebugPath()
 	if (!GetBattleMap())
 		return;
 	FlushCheckNodes();
-	//»ñÈ¡Ñ¡ÖÐÆå¸ñ
+	//ï¿½ï¿½È¡Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½
 	UGridNode* tHitNode = BattleMap->CheckHitNode(GetMouseCursorPosition());
-	//ÅÐ¶ÏÆå¸ñÍ¨ÐÐ×´Ì¬
+	//ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½×´Ì¬
 	if (tHitNode && tHitNode->PassFlag != ENodePassFlag::Block)
 	{
 		SelectedNodes.AddUnique(tHitNode);
 		BattleMap->SetNodeMaterial(tHitNode, BattleMap->DebugMaterial1);
 	}
-	//Èç¹ûÑ¡ÖÐÆå¸ñ³¬¹ý2¸ö£¬Ôò½øÐÐÑ°Â·
+	//ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ñ³¬¹ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ°Â·
 	if (SelectedNodes.Num() >= 2)
 	{
 		TArray<UGridNode*> tPath;
@@ -148,29 +148,29 @@ void AChessPlayerController::HandleDebugPath()
 			return;
 		for (auto a : tPath)
 		{
-			//Ìø¹ýÖÕµã²ÄÖÊÉèÖÃ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (a == SelectedNodes[1])
 				continue;
-			//ÉèÖÃÂ·¾¶²ÄÖÊ
+			//ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			BattleMap->SetNodeMaterial(a, BattleMap->DebugMaterial2);
 		}
 	}
 }
 
-//Debug½ÇÉ«
+//Debugï¿½ï¿½É«
 void AChessPlayerController::HandleDebugPawn()
 {
 	FVector WorldLocation, WorldDirection;
-	//»ñÈ¡Êó±êµã»÷µÄ½ÇÉ«
+	//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½É«
 	if (DeprojectMousePositionToWorld(WorldLocation, WorldDirection))
 	{
-		//ÉäÏß¼ì²â
+		//ï¿½ï¿½ï¿½ß¼ï¿½ï¿½
 		FVector Start, End;
 		Start = WorldLocation;
 		End = Start + WorldDirection * 2000;
 		FCollisionQueryParams Params;
 		FCollisionObjectQueryParams ObjectParams;
-		//Åö×²ÀàÐÍÑ¡Ôñpawn
+		//ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½pawn
 		ObjectParams.AddObjectTypesToQuery(ECollisionChannel::ECC_Pawn);
 		FHitResult OutHit;
 		UWorld* World = GetWorld();
@@ -178,7 +178,7 @@ void AChessPlayerController::HandleDebugPawn()
 		{
 			if (World->LineTraceSingleByObjectType(OutHit, Start, End, ObjectParams, Params))
 			{
-				//Éè¶¨µ±Ç°Ñ¡ÖÐ½ÇÉ«
+				//ï¿½è¶¨ï¿½ï¿½Ç°Ñ¡ï¿½Ð½ï¿½É«
 				SelectedPawn = Cast<APawn>(OutHit.GetActor());
 				return;
 			}
@@ -188,11 +188,11 @@ void AChessPlayerController::HandleDebugPawn()
 	if (SelectedPawn && GetBattleMap())
 	{
 		FlushCheckNodes();
-		//»ñÈ¡ÒÆ¶¯×é¼þ
+		//ï¿½ï¿½È¡ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½
 		UChessMovementComponent* ChessMovementComponent = SelectedPawn->FindComponentByClass<UChessMovementComponent>();
 		if (!ChessMovementComponent || !ChessMovementComponent->NowNode)
 			return;
-		//»ñÈ¡Æðµã£¬ÖÕµã
+		//ï¿½ï¿½È¡ï¿½ï¿½ã£¬ï¿½Õµï¿½
 		UGridNode* FromNode = ChessMovementComponent->NowNode;
 		UGridNode* ToNode = BattleMap->CheckHitNode(GetMouseCursorPosition());
 		if (!FromNode || !ToNode)
@@ -200,14 +200,14 @@ void AChessPlayerController::HandleDebugPawn()
 		if (ToNode->PassFlag == ENodePassFlag::Block)
 			return;
 		SelectedNodes.AddUnique(ToNode);
-		//ÉèÖÃ²ÄÖÊ
+		//ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½
 		BattleMap->SetNodeMaterial(ToNode, BattleMap->DebugMaterial1);
 		TArray<UGridNode*> tPath;
-		//½øÐÐÑ°Â·
+		//ï¿½ï¿½ï¿½ï¿½Ñ°Â·
 		bool bResult = BattleMap->FindPath(tPath, SelectedPawn, FromNode, ToNode);
 		if (!bResult)
 			return;
-		//½øÐÐ
+		//ï¿½ï¿½ï¿½ï¿½
 		ChessMovementComponent->SetMovePath(tPath);
 
 	}
@@ -217,16 +217,16 @@ void AChessPlayerController::HandleDebugPawn()
 void AChessPlayerController::HandleDebugTaskMove()
 {
 	FVector WorldLocation, WorldDirection;
-	//»ñÈ¡Êó±êµã»÷µÄ½ÇÉ«
+	//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½É«
 	if (DeprojectMousePositionToWorld(WorldLocation, WorldDirection))
 	{
-		//ÉäÏß¼ì²â
+		//ï¿½ï¿½ï¿½ß¼ï¿½ï¿½
 		FVector Start, End;
 		Start = WorldLocation;
 		End = Start + WorldDirection * 2000;
 		FCollisionQueryParams Params;
 		FCollisionObjectQueryParams ObjectParams;
-		//Åö×²ÀàÐÍÑ¡Ôñpawn
+		//ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½pawn
 		ObjectParams.AddObjectTypesToQuery(ECollisionChannel::ECC_Pawn);
 		FHitResult OutHit;
 		UWorld* World = GetWorld();
@@ -243,9 +243,9 @@ void AChessPlayerController::HandleDebugTaskMove()
 	if (SelectedPawn && GetBattleMap())
 	{
 		FlushCheckNodes();
-		//»ñÈ¡ÖÕµã
+		//ï¿½ï¿½È¡ï¿½Õµï¿½
 		UGridNode* ToNode = BattleMap->CheckHitNode(GetMouseCursorPosition());
-		//»ñÈ¡AIController
+		//ï¿½ï¿½È¡AIController
 		AAIController* AIController = Cast<AAIController>(SelectedPawn->GetController());
 		if (!ToNode)
 			return;
@@ -257,29 +257,29 @@ void AChessPlayerController::HandleDebugTaskMove()
 		BattleMap->SetNodeMaterial(ToNode, BattleMap->DebugMaterial1);
 		if (NowMoveTask)
 		{
-			//Ç¿ÖÆÈ¡ÏûÉÏÒ»¸öTask
+			//Ç¿ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Task
 			NowMoveTask->ForceEndTask();
 		}
-		//´´½¨Task
+		//ï¿½ï¿½ï¿½ï¿½Task
 		NowMoveTask = UAITask_MoveToNode::AIMoveTo(AIController, ToNode, nullptr, 0);
-		//Ö´ÐÐTask
+		//Ö´ï¿½ï¿½Task
 		NowMoveTask->ForceActiveTask();
 	}
 }
 
 void AChessPlayerController::HandleDebugTaskRotate()
 {
-	//»ñÈ¡Êó±êµã»÷µÄ½ÇÉ«
+	//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½É«
 	FVector WorldLocation, WorldDirection;
 	if (DeprojectMousePositionToWorld(WorldLocation, WorldDirection))
 	{
-		//ÉäÏß¼ì²â
+		//ï¿½ï¿½ï¿½ß¼ï¿½ï¿½
 		FVector Start, End;
 		Start = WorldLocation;
 		End = Start + WorldDirection * 2000;
 		FCollisionQueryParams Params;
 		FCollisionObjectQueryParams ObjectParams;
-		//Åö×²ÀàÐÍÑ¡Ôñpawn
+		//ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½pawn
 		ObjectParams.AddObjectTypesToQuery(ECollisionChannel::ECC_Pawn);
 		FHitResult OutHit;
 		UWorld* World = GetWorld();
@@ -296,10 +296,10 @@ void AChessPlayerController::HandleDebugTaskRotate()
 	if (SelectedPawn && GetBattleMap())
 	{
 		FlushCheckNodes();
-		//»ñÈ¡Ä¿±êµã
+		//ï¿½ï¿½È¡Ä¿ï¿½ï¿½ï¿½
 		UGridNode* ToNode = BattleMap->CheckHitNode(GetMouseCursorPosition());
 		AAIController* AIController = Cast<AAIController>(SelectedPawn->GetController());
-		//°²È«ÅÐ¶Ï
+		//ï¿½ï¿½È«ï¿½Ð¶ï¿½
 		if (!ToNode)
 			return;
 		if (!AIController)
@@ -310,12 +310,12 @@ void AChessPlayerController::HandleDebugTaskRotate()
 		BattleMap->SetNodeMaterial(ToNode, BattleMap->DebugMaterial1);
 		if (NowRotateTask)
 		{
-			//Ç¿ÖÆÈ¡ÏûÉÏÒ»¸öTask
+			//Ç¿ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Task
 			NowRotateTask->ForceEndTask();
 		}
-		//´´½¨Task
+		//ï¿½ï¿½ï¿½ï¿½Task
 		NowRotateTask = UAITask_TurnTo::AITurnTo(AIController, nullptr, ToNode, FRotator::ZeroRotator, 0);
-		//Ö´ÐÐTask
+		//Ö´ï¿½ï¿½Task
 		NowRotateTask->ForceActiveTask();
 	}
 }
