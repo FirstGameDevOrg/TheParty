@@ -23,7 +23,7 @@ bool AUserLogin::Login(FString UserName, FString Password)
 	wrapper.setData(userLogin);
 
 	FString loginMessage;
-	client->SendMessageSync(wrapper.serializeAsString().c_str(), loginMessage);
+	SendMessageSync(wrapper.serializeAsString().c_str(), loginMessage);
 	
 	MessageWrapper wrapper_receive;
 	wrapper_receive.parseFromString(TCHAR_TO_UTF8(*loginMessage));
@@ -41,8 +41,6 @@ void AUserLogin::BeginPlay()
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("%s UserLogin Init ----"), *FString(__FUNCTION__));
 
-	client = NewObject<AActorWebSocket>();
-	client->BeginPlay();
 	//client->DispatchBeginPlay();
 	
 	CommandRouterMap::instance().fromString(R"({"pb.socket.UserLogin":{"high":15,"low":0},"pb.socket.HelloSpringMsg":{"high":2,"low":0}})");
@@ -53,7 +51,6 @@ void AUserLogin::BeginPlay()
 void AUserLogin::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	client->EndPlay(EndPlayReason);
 }
 
 // Called every frame

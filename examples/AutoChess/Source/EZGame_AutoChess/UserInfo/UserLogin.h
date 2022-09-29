@@ -7,7 +7,7 @@
 #include "UserLogin.generated.h"
 
 UCLASS()
-class EZGAME_AUTOCHESS_API AUserLogin : public AActor
+class EZGAME_AUTOCHESS_API AUserLogin : public AActorWebSocket
 {
 	GENERATED_BODY()
 	
@@ -18,7 +18,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UserLogin")
 	bool Login(FString UserName, FString Password);
 
-	AActorWebSocket* client = nullptr;
+	//AActorWebSocket* client = nullptr;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
