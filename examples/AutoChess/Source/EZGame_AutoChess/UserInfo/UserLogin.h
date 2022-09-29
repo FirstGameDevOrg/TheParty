@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
 #include "CoreMinimal.h"
+#include "../ActorWebSocket.h"
 #include "GameFramework/Actor.h"
 #include "UserLogin.generated.h"
 
@@ -16,11 +16,13 @@ public:
 	AUserLogin();
 
 	UFUNCTION(BlueprintCallable, Category = "UserLogin")
-	static int UserLogin(FString UserName, FString Password, FString& message);
+	bool Login(FString UserName, FString Password);
 
+	AActorWebSocket* client = nullptr;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:	
 	// Called every frame

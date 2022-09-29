@@ -9,8 +9,6 @@ public class EZGame_AutoChess : ModuleRules
 {
     private string ThirdPartPath
     {
-        //ͨ��get�������ModuleDirectory��������ThirdPartĿ¼��
-        //ModuleDirectoryָ����Build.cs���ڵ�Ŀ¼
         get
         {
             return Path.GetFullPath(Path.Combine(ModuleDirectory, @"..\ThirdParty"));
@@ -19,31 +17,28 @@ public class EZGame_AutoChess : ModuleRules
 
     public EZGame_AutoChess(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bEnableExceptions = true;
-
-        Definitions.Add("ASIO_STANDALONE");
-        Definitions.Add("_WEBSOCKETPP_CPP11_INTERNAL_");
-        Definitions.Add("ASIO_HAS_STD_TYPE_TRAITS");
-        Definitions.Add("ASIO_HAS_STD_SHARED_PTR");
-        Definitions.Add("ASIO_HAS_STD_ADDRESSOF");
-        Definitions.Add("ASIO_HAS_STD_ATOMIC");
-        Definitions.Add("ASIO_HAS_STD_CHRONO");
-        Definitions.Add("ASIO_HAS_CSTDINT");
-        Definitions.Add("ASIO_HAS_STD_ARRAY");
-        Definitions.Add("ASIO_HAS_STD_SYSTEM_ERROR");
         
-        
-        string libBaseDir = Path.Combine(ThirdPartPath, "lib", Target.Platform == UnrealTargetPlatform.Win64 ? "x64" : "x86");
-        PublicAdditionalLibraries.Add(Path.Combine(libBaseDir, "libprotobuf.lib"));
-        PublicAdditionalLibraries.Add(Path.Combine(libBaseDir, "libprotoc.lib"));
+        PublicDefinitions.Add("ASIO_STANDALONE");
+        PublicDefinitions.Add("_WEBSOCKETPP_CPP11_INTERNAL_");
+        PublicDefinitions.Add("ASIO_HAS_STD_TYPE_TRAITS");
+        PublicDefinitions.Add("ASIO_HAS_STD_SHARED_PTR");
+        PublicDefinitions.Add("ASIO_HAS_STD_ADDRESSOF");
+        PublicDefinitions.Add("ASIO_HAS_STD_ATOMIC");
+        PublicDefinitions.Add("ASIO_HAS_STD_CHRONO");
+        PublicDefinitions.Add("ASIO_HAS_CSTDINT");
+        PublicDefinitions.Add("ASIO_HAS_STD_ARRAY");
+        PublicDefinitions.Add("ASIO_HAS_STD_SYSTEM_ERROR");
 
         PrivateIncludePaths.Add(Path.Combine(ThirdPartPath, "inc"));
         PublicIncludePaths.Add(Path.Combine(ThirdPartPath, "inc"));
         PrivateIncludePaths.Add(Path.Combine(ThirdPartPath, "inc/asio"));
         PublicIncludePaths.Add(Path.Combine(ThirdPartPath, "inc/asio"));
+        
+        PublicDependencyModuleNames.Add("Protobuf");
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore","ProceduralMeshComponent", "AIModule", "GameplayTasks" });
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore","ProceduralMeshComponent", "AIModule", "GameplayTasks", "WebSockets", "Json" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

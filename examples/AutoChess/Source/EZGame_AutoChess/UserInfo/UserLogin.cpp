@@ -2,53 +2,58 @@
 
 
 #include "UserLogin.h"
-#include "Windows/AllowWindowsPlatformTypes.h"
-#include "Windows/PreWindowsApi.h"
-#include <nlohmann/json.hpp>
-#include <cpp-httplib/httplib.h>
-#include "Windows/PostWindowsApi.h"
-#include "Windows/HideWindowsPlatformTypes.h"
+#include "MessageWrapper.hpp"
 
 // Sets default values
 AUserLogin::AUserLogin()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	PrimaryActorTick.bCanEverTick = false;
 }
 
-int AUserLogin::UserLogin(FString UserName, FString Password, FString& message)
+bool AUserLogin::Login(FString UserName, FString Password)
 {
-	httplib::Client loginCli("localhost", 8088);
+	UE_LOG(LogTemp, Warning, TEXT("%s with UserName = %s"), *FString(__FUNCTION__), *UserName);
+	MessageWrapper wrapper;
 
-	nlohmann::json j;
-	j["username"] = TCHAR_TO_UTF8(&UserName);
-	j["password"] = TCHAR_TO_UTF8(&Password);
+	pb::socket::UserLogin userLogin;
+	userLogin.set_username(TCHAR_TO_UTF8(*UserName));
+	userLogin.set_password(TCHAR_TO_UTF8(*Password));
+	wrapper.setRouter(userLogin);
+	wrapper.setData(userLogin);
 
-	auto ret = loginCli.Post("/login", j.dump(), "application/json");
-	if (!ret)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Cannot connect to server"));
-		return -1;
-	}
-	if (ret->status == 200)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Login Success"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Login Failed"));
-	}
-	j = nlohmann::json::parse(ret->body);
-	message = j["message"].get<std::string>().c_str();
-	return ret->status;
+	FString loginMessage;
+	client->SendMessageSync(wrapper.serializeAsString().c_str(), loginMessage);
+	
+	MessageWrapper wrapper_receive;
+	wrapper_receive.parseFromString(TCHAR_TO_UTF8(*loginMessage));
+	pb::socket::UserInfo user_info;
+	wrapper_receive.toObject(user_info);
+	UE_LOG(LogTemp, Warning, TEXT("%s ID = %d, Name = %s"), *FString(__FUNCTION__), user_info.id(), user_info.name().c_str());
+
+	return UserName == user_info.name().c_str();
 }
+
 
 // Called when the game starts or when spawned
 void AUserLogin::BeginPlay()
 {
 	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("%s UserLogin Init ----"), *FString(__FUNCTION__));
+
+	client = NewObject<AActorWebSocket>();
+	client->BeginPlay();
+	//client->DispatchBeginPlay();
 	
+	CommandRouterMap::instance().fromString(R"({"pb.socket.UserLogin":{"high":15,"low":0},"pb.socket.HelloSpringMsg":{"high":2,"low":0}})");
+	
+}
+
+
+void AUserLogin::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	client->EndPlay(EndPlayReason);
 }
 
 // Called every frame

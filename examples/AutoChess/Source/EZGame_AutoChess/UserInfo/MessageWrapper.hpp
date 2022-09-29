@@ -27,10 +27,19 @@ class CommandRouterMap final
 {
 
 public:
+	using std::map<std::string, CommandRouter>::insert;
 
 	bool fromString(std::string content)
 	{
-		auto j = nlohmann::json::parse(content);
+		return false;
+		nlohmann::json j;
+		try {
+			j = nlohmann::json::parse(content);
+		}
+		catch (std::exception e)
+		{
+			return false;
+		}
 		clear();
 		for (auto item : j.items())
 		{
