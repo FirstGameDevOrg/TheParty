@@ -18,26 +18,25 @@ class EZGAME_AUTOCHESS_API UOhtoAiWebSocketSession : public UBlueprintAsyncActio
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable, Category = OhtoAiWebSocketSession)
+	UFUNCTION(BlueprintCallable, Category = "OhtoAi | WebSocketSession")
 		static UOhtoAiWebSocketSession* CreateOhtoAiWebSocketSession(const FString& WebsocketUrl);
 
-	UFUNCTION(BlueprintCallable, Category = OhtoAiWebSocketSession)
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Jayzhou Websocket Session Instance"),  Category = "OhtoAi | WebSocketSession | Instance")
 		static UOhtoAiWebSocketSession* OhtoAiWebSocketSessionJayzhouInstance();
 
-	UFUNCTION(BlueprintCallable, Category = OhtoAiWebSocketSession)
+	UFUNCTION(BlueprintCallable, Category = "OhtoAi | WebSocketSession")
 		void Close();
 
-	UFUNCTION(BlueprintCallable, Category = OhtoAiWebSocketSession)
+	UFUNCTION(BlueprintCallable, Category = "OhtoAi | WebSocketSession")
 		void SendMessage(const FString& Message);
 
-	UFUNCTION(BlueprintCallable, Category = OhtoAiWebSocketSession)
+	UFUNCTION(BlueprintCallable, Category = "OhtoAi | WebSocketSession")
 		void SendRawMessage(TArray<uint8> Message);
 	
-	UFUNCTION(BlueprintCallable, Category = OhtoAiWebSocketSession)
+	UFUNCTION(BlueprintCallable, Category = "OhtoAi | WebSocketSession")
 		bool IsConnected();
 
-
-	UFUNCTION(BlueprintCallable, Category = OhtoAiWebSocketSession)
+	UFUNCTION(BlueprintCallable, Category = "OhtoAi | WebSocketSession")
 		void WebsocketUrl(FString& WebsocketUrl);
 	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOhtoAiWebSocketRawMessageEvent
@@ -46,15 +45,15 @@ public:
 		, const TArray<uint8>&, MessageData
 		, int, BytesRemaining);
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, BlueprintAssignable, Category = OhtoAiWebSocketSession)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, BlueprintAssignable, Category = "OhtoAi | WebSocketSession")
 		FOhtoAiWebSocketRawMessageEvent OnConnectedEvent;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, BlueprintAssignable, Category = OhtoAiWebSocketSession)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, BlueprintAssignable, Category = "OhtoAi | WebSocketSession")
 		FOhtoAiWebSocketRawMessageEvent OnMessageSentEvent;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, BlueprintAssignable, Category = OhtoAiWebSocketSession)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, BlueprintAssignable, Category = "OhtoAi | WebSocketSession")
 		FOhtoAiWebSocketRawMessageEvent OnMessageEvent;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, BlueprintAssignable, Category = OhtoAiWebSocketSession)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, BlueprintAssignable, Category = "OhtoAi | WebSocketSession")
 		FOhtoAiWebSocketRawMessageEvent OnRawMessageEvent;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, BlueprintAssignable, Category = OhtoAiWebSocketSession)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, BlueprintAssignable, Category = "OhtoAi | WebSocketSession")
 		FOhtoAiWebSocketRawMessageEvent OnClosedEvent;
 
 

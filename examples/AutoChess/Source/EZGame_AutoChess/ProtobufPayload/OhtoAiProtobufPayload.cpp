@@ -34,7 +34,7 @@ void UOhtoAiProtobufPayload::ParseUserInfoPayload(const TArray<uint8>& Payload, 
 	id = userInfo.id();
 }
 
-void UOhtoAiProtobufPayload::DumpHexFromArray(const TArray<uint8>& Bytes, FString& String)
+void UOhtoAiProtobufPayload::HexEncode(const TArray<uint8>& Bytes, FString& String)
 {
 	String.Empty();
 	for (auto& byte : Bytes)
