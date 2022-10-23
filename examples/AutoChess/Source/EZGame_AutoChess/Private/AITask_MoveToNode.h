@@ -18,57 +18,57 @@ class UAITask_MoveToNode : public UAITask
 	GENERATED_BODY()
 
 public:
-	//´´½¨Task¶ÔÏó-¾²Ì¬
+	//åˆ›å»ºTaskå¯¹è±¡-é™æ€
 	UFUNCTION(BlueprintCallable, meta = (DefaultToSelf = "Controller", BlueprintInternalUseOnly = "TRUE", DisplayName = "Move To Node"))
 	static UAITask_MoveToNode* AIMoveTo(AAIController* Controller, UGridNode* GoalNode, AActor* GoalActor, int StopOnStep = 1);
 
-	//Ä¿±ê½ÇÉ«
+	//ç›®æ ‡è§’è‰²
 	UPROPERTY()
 	AActor* GoalActor;
 
-	//³ö·¢Æå¸ñ
+	//å‡ºå‘æ£‹æ ¼
 	UPROPERTY()
 	UGridNode* FromNode;
 
-	//ÖÕµãÆå¸ñ
+	//ç»ˆç‚¹æ£‹æ ¼
 	UPROPERTY()
 	UGridNode* ToNode;
 
-	//Í£Ö¹¾àÀë
+	//åœæ­¢è·ç¦»
 	UPROPERTY()
 	int StopOnStep;
 
-	//Ç¿ÖÆ¿ªÆôÈÎÎñ
+	//å¼ºåˆ¶å¼€å¯ä»»åŠ¡
 	void ForceActiveTask();
 
-	//Ç¿ÖÆ½áÊøÈÎÎñ
+	//å¼ºåˆ¶ç»“æŸä»»åŠ¡
 	void ForceEndTask();
 
 protected:
-	//Î¯ÍĞ-³É¹¦½áÊø
+	//å§”æ‰˜-æˆåŠŸç»“æŸ
 	UPROPERTY(BlueprintAssignable)
 	FGenericGameplayTaskDelegate OnRequestSuccess;
 
-	//Î¯ÍĞ-Ê§°Ü½áÊø
+	//å§”æ‰˜-å¤±è´¥ç»“æŸ
 	UPROPERTY(BlueprintAssignable)
 	FGenericGameplayTaskDelegate OnRequestFailed;
 
-	//´¥·¢ÈÎÎñº¯Êı
+	//è§¦å‘ä»»åŠ¡å‡½æ•°
 	virtual void Activate() override;
 
-	//Ö´ĞĞÒÆ¶¯º¯Êı
+	//æ‰§è¡Œç§»åŠ¨å‡½æ•°
 	UFUNCTION()
 	void PerformMove();
 
-	//³É¹¦Íê³ÉÈÎÎñº¯Êı
+	//æˆåŠŸå®Œæˆä»»åŠ¡å‡½æ•°
 	UFUNCTION()
 	void RequestSuccess();
 
-	//Ê§°ÜÍê³ÉÈÎÎñº¯Êı
+	//å¤±è´¥å®Œæˆä»»åŠ¡å‡½æ•°
 	UFUNCTION()
 	void RequestFailed();
 
-	//¸ù¾İÄ¿±ê½ÇÉ«»ñÈ¡ÆäÆå¸ñ
+	//æ ¹æ®ç›®æ ‡è§’è‰²è·å–å…¶æ£‹æ ¼
 	UGridNode* GetGridNode(AActor* InActor, bool bIncldeBookNode = false) const;
 
 };

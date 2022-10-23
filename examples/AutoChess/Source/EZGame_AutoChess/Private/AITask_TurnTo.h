@@ -17,53 +17,53 @@ class EZGAME_AUTOCHESS_API UAITask_TurnTo : public UAITask
 	GENERATED_BODY()
 
 public:
-	//´´½¨Task¶ÔÏó-¾²Ì¬
+	//åˆ›å»ºTaskå¯¹è±¡-é™æ€
 	UFUNCTION(BlueprintCallable, meta = (DefaultToSelf = "Controller", BlueprintInternalUseOnly = "TRUE", DisplayName = "Turn To"))
 	static UAITask_TurnTo* AITurnTo(AAIController* Controller, AActor* GoalActor, UGridNode* GoalNode, FRotator GoalRotation, float StopOnDegree = 10);
 
-	//Ğı×ªÄ¿±ê½ÇÉ«
+	//æ—‹è½¬ç›®æ ‡è§’è‰²
 	UPROPERTY()
 	AActor* GoalActor;
 
-	//Ğı×ªÄ¿±êÆå¸ñ
+	//æ—‹è½¬ç›®æ ‡æ£‹æ ¼
 	UPROPERTY()
 	UGridNode* GoalNode;
 
-	//Ğı×ªÄ¿±êÖµ
+	//æ—‹è½¬ç›®æ ‡å€¼
 	UPROPERTY()
 	FRotator GoalRotation;
 
-	//Ğı×ªÈİ²îÖµ
+	//æ—‹è½¬å®¹å·®å€¼
 	UPROPERTY()
 	float StopOnDegree;
 
-	//Ç¿ÖÆÖ´ĞĞ
+	//å¼ºåˆ¶æ‰§è¡Œ
 	void ForceActiveTask();
 
-	//Ç¿ÖÆÊ§°Ü
+	//å¼ºåˆ¶å¤±è´¥
 	void ForceEndTask();
 
 protected:
-	//Î¯ÍĞ-³É¹¦½áÊø
+	//å§”æ‰˜-æˆåŠŸç»“æŸ
 	UPROPERTY(BlueprintAssignable)
 	FGenericGameplayTaskDelegate OnRequestSuccess;
 
-	//Î¯ÍĞ-Ê§°Ü½áÊø
+	//å§”æ‰˜-å¤±è´¥ç»“æŸ
 	UPROPERTY(BlueprintAssignable)
 	FGenericGameplayTaskDelegate OnRequestFailed;
 
-	//´¥·¢ÈÎÎñº¯Êı
+	//è§¦å‘ä»»åŠ¡å‡½æ•°
 	virtual void Activate() override;
 
-	//Ö´ĞĞĞı×ªº¯Êı
+	//æ‰§è¡Œæ—‹è½¬å‡½æ•°
 	UFUNCTION()
 	void PerformRotate();
 
-	//³É¹¦Íê³ÉÈÎÎñº¯Êı
+	//æˆåŠŸå®Œæˆä»»åŠ¡å‡½æ•°
 	UFUNCTION()
 	void RequestSuccess();
 
-	//Ê§°ÜÍê³ÉÈÎÎñº¯Êı
+	//å¤±è´¥å®Œæˆä»»åŠ¡å‡½æ•°
 	UFUNCTION()
 	void RequestFailed();
 	

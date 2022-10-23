@@ -19,22 +19,9 @@ public class EZGame_AutoChess : ModuleRules
 	{
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bEnableExceptions = true;
-        
-        PublicDefinitions.Add("ASIO_STANDALONE");
-        PublicDefinitions.Add("_WEBSOCKETPP_CPP11_INTERNAL_");
-        PublicDefinitions.Add("ASIO_HAS_STD_TYPE_TRAITS");
-        PublicDefinitions.Add("ASIO_HAS_STD_SHARED_PTR");
-        PublicDefinitions.Add("ASIO_HAS_STD_ADDRESSOF");
-        PublicDefinitions.Add("ASIO_HAS_STD_ATOMIC");
-        PublicDefinitions.Add("ASIO_HAS_STD_CHRONO");
-        PublicDefinitions.Add("ASIO_HAS_CSTDINT");
-        PublicDefinitions.Add("ASIO_HAS_STD_ARRAY");
-        PublicDefinitions.Add("ASIO_HAS_STD_SYSTEM_ERROR");
 
         PrivateIncludePaths.Add(Path.Combine(ThirdPartPath, "inc"));
         PublicIncludePaths.Add(Path.Combine(ThirdPartPath, "inc"));
-        PrivateIncludePaths.Add(Path.Combine(ThirdPartPath, "inc/asio"));
-        PublicIncludePaths.Add(Path.Combine(ThirdPartPath, "inc/asio"));
         
         PublicDependencyModuleNames.Add("Protobuf");
 

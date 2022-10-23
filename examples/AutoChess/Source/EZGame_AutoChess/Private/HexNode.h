@@ -15,40 +15,40 @@ class UHexNode : public UGridNode
 	GENERATED_BODY()
 	
 public:
-	//»ù´¡-¹¹Ôìº¯Êı
+	//åŸºç¡€-æ„é€ å‡½æ•°
 	UHexNode();
 
-	//»ù´¡-ÓÒÉÏÆå¸ñ
+	//åŸºç¡€-å³ä¸Šæ£‹æ ¼
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UHexNode* RightUpNode;
 
-	//»ù´¡-ÓÒÆå¸ñ
+	//åŸºç¡€-å³æ£‹æ ¼
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UHexNode* RightNode;
 
-	//»ù´¡-ÓÒÏÂÆå¸ñ
+	//åŸºç¡€-å³ä¸‹æ£‹æ ¼
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UHexNode* RightDownNode;
 
-	//»ù´¡-×óÏÂÆå¸ñ
+	//åŸºç¡€-å·¦ä¸‹æ£‹æ ¼
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UHexNode* LeftDownNode;
 
-	//»ù´¡-×óÆå¸ñ
+	//åŸºç¡€-å·¦æ£‹æ ¼
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UHexNode* LeftNode;
 
-	//»ù´¡-×óÉÏÆå¸ñ
+	//åŸºç¡€-å·¦ä¸Šæ£‹æ ¼
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UHexNode* LeftUpNode;
 
-	//»ù´¡-»ñÈ¡ÏàÁÚÆå¸ñ-¸²¸Ç
+	//åŸºç¡€-è·å–ç›¸é‚»æ£‹æ ¼-è¦†ç›–
 	virtual TArray<UGridNode*> GetNeighbors() override;
 
-	//Ñ°Â·-»ñÈ¡Á½Á½Æå¸ñµÄÊµ¼Ê¾àÀë-¸²¸Ç
+	//å¯»è·¯-è·å–ä¸¤ä¸¤æ£‹æ ¼çš„å®é™…è·ç¦»-è¦†ç›–
 	virtual float GetRealRadiusSize() const override { return Size * FMath::Sqrt(3) * 0.5; };
 
-	//Ä£ĞÍ-»æÖÆÄ£ĞÍ-¸²¸Ç
+	//æ¨¡å‹-ç»˜åˆ¶æ¨¡å‹-è¦†ç›–
 	virtual void DrawNode(TArray<FVector>& InVertices,
 		TArray<int32>& InIndecies,
 		TArray<FVector>& InNormals,

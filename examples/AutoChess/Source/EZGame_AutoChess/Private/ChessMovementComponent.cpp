@@ -3,11 +3,11 @@
 
 #include "ChessMovementComponent.h"
 
-//Tickº¯Êı
+//Tickå‡½æ•°
 void UChessMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	//°²È«ÅĞ¶Ï
+	//å®‰å…¨åˆ¤æ–­
 	if (!UpdatedComponent || ShouldSkipUpdate(DeltaTime))
 	{
 		return;
@@ -21,7 +21,7 @@ void UChessMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 	{
 		return;
 	}
-	//Ö´ĞĞĞı×ª
+	//æ‰§è¡Œæ—‹è½¬
 	if (RotateTarget.IsValid())
 	{
 		FHitResult RotHit(1.f);
@@ -41,24 +41,24 @@ void UChessMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 		}
 		return;
 	}
-	//°²È«ÅĞ¶ÏÊÇ·ñÓĞÂ·¾¶
+	//å®‰å…¨åˆ¤æ–­æ˜¯å¦æœ‰è·¯å¾„
 	if (MoveStack.Num() == 0)
 	{
 		return;
 	}
-	//ÄÃ³ö¶¥²¿£¬°²È«ÅĞ¶Ï
+	//æ‹¿å‡ºé¡¶éƒ¨ï¼Œå®‰å…¨åˆ¤æ–­
 	UGridNode* tNode = MoveStack.Top();
 	if (!tNode)
 	{
 		MoveStack.Pop();
 		return;
 	}
-	//Èç¹ûÒªÒÆ¶¯µÄÆå¸ñ²»ÊÇµ±Ç°Æå¸ñ£¬ÔòÔ¤¶¨Õâ¸öÆå¸ñ
+	//å¦‚æœè¦ç§»åŠ¨çš„æ£‹æ ¼ä¸æ˜¯å½“å‰æ£‹æ ¼ï¼Œåˆ™é¢„å®šè¿™ä¸ªæ£‹æ ¼
 	if (NowNode!=tNode && BookNode!=tNode)
 	{
 		SetBookNode(tNode);
 	}
-	//ÉèÖÃµ±Ç°TickÒÆ¶¯²ÎÊı
+	//è®¾ç½®å½“å‰Tickç§»åŠ¨å‚æ•°
 	FHitResult MoveHit(1.f);
 	float tSpeed = FMath::Max(0.0f, MaxMoveSpeed);
 	FRotator tRotation = UpdatedComponent->GetComponentRotation();
@@ -66,7 +66,7 @@ void UChessMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 	float tDistance = tDirection.Size2D();
 	tDirection.Normalize();
 	FVector tMoveDelta;
-	//ÉèÖÃMoveDelata
+	//è®¾ç½®MoveDelata
 	if (tDistance < DeltaTime * tSpeed)
 	{
 		tMoveDelta = tNode->Location - ActorOwner->GetActorLocation();
@@ -75,18 +75,18 @@ void UChessMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 	{
 		tMoveDelta = tDirection * tSpeed * DeltaTime;
 	}
-	//ÉèÖÃRotDelta
+	//è®¾ç½®RotDelta
 	FRotator tRotDelta = FMath::RInterpConstantTo(tRotation, tMoveDelta.Rotation(), DeltaTime, MaxRotationRate);
-	//ÉèÖÃµ±Ç°ËÙ¶È
+	//è®¾ç½®å½“å‰é€Ÿåº¦
 	Velocity = tMoveDelta / DeltaTime;
-	//ÒÆ¶¯×é¼ş
+	//ç§»åŠ¨ç»„ä»¶
 	MoveUpdatedComponent(tMoveDelta, tRotDelta, false, &MoveHit, ETeleportType::None);
-	//¼ÆËãµ±Ç°ËùÔÚÆå¸ñ
+	//è®¡ç®—å½“å‰æ‰€åœ¨æ£‹æ ¼
 	CalcuNowNode();
-	//µ½´ïÖĞ¼äÂ·µã
+	//åˆ°è¾¾ä¸­é—´è·¯ç‚¹
 	if ((ActorOwner->GetActorLocation() - tNode->Location).IsNearlyZero())
 	{
-		//µ¯³ö¶¥Õ»
+		//å¼¹å‡ºé¡¶æ ˆ
 		MoveStack.Pop();
 		if (MoveStack.Num() == 0)
 		{
@@ -101,7 +101,7 @@ void UChessMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 	}
 }
 
-//×é¼şÏú»Ù
+//ç»„ä»¶é”€æ¯
 void UChessMovementComponent::OnComponentDestroyed(bool bDestroyingHierarchy)
 {
 	if (BookNode)
@@ -111,7 +111,7 @@ void UChessMovementComponent::OnComponentDestroyed(bool bDestroyingHierarchy)
 	Super::OnComponentDestroyed(bDestroyingHierarchy);
 }
 
-//Á¢¿ÌÍ£Ö¹
+//ç«‹åˆ»åœæ­¢
 void UChessMovementComponent::StopMovementImmediately()
 {
 	if (BookNode)
@@ -121,39 +121,39 @@ void UChessMovementComponent::StopMovementImmediately()
 	Super::StopMovementImmediately();
 }
 
-//ÉèÖÃµ±Ç°Æå¸ñ
+//è®¾ç½®å½“å‰æ£‹æ ¼
 void UChessMovementComponent::SetNowNode(UGridNode* InNode)
 {
-	//È¡Ïûµ±Ç°Ô¤¶¨Æå¸ñ
+	//å–æ¶ˆå½“å‰é¢„å®šæ£‹æ ¼
 	if (BookNode)
 		SetBookNode(nullptr);
-	//Àë¿ªµ±Ç°Æå¸ñ
+	//ç¦»å¼€å½“å‰æ£‹æ ¼
 	if (NowNode)
 		NowNode->LeaveNode(GetOwner());
-	//ÉèÖÃµ±Ç°Æå¸ñ
+	//è®¾ç½®å½“å‰æ£‹æ ¼
 	NowNode = InNode;
-	//½øĞĞ½øÈë
+	//è¿›è¡Œè¿›å…¥
 	if(NowNode)
 		NowNode->EnterNode(GetOwner());
 }
 
-//ÉèÖÃÔ¤¶¨Æå¸ñ
+//è®¾ç½®é¢„å®šæ£‹æ ¼
 void UChessMovementComponent::SetBookNode(UGridNode* InNode)
 {
-	//È¡Ïûµ±Ç°Ô¤¶¨Æå¸ñ
+	//å–æ¶ˆå½“å‰é¢„å®šæ£‹æ ¼
 	if (BookNode)
 		BookNode->CancelBookNode(GetOwner());
-	//ÉèÖÃµ±Ç°Ô¤¶¨Æå¸ñ
+	//è®¾ç½®å½“å‰é¢„å®šæ£‹æ ¼
 	BookNode = InNode;
-	//½øĞĞÔ¤¶¨
+	//è¿›è¡Œé¢„å®š
 	if(BookNode)
 		BookNode->BookNode(GetOwner());
 }
 
-//¼ÆËãµ±Ç°ËùÔÚÆå¸ñ
+//è®¡ç®—å½“å‰æ‰€åœ¨æ£‹æ ¼
 void UChessMovementComponent::CalcuNowNode()
 {
-	//°²È«ÅĞ¶Ï
+	//å®‰å…¨åˆ¤æ–­
 	AActor* ActorOwner = UpdatedComponent->GetOwner();
 	if (!ActorOwner || (ActorOwner->IsPendingKill()))
 		return;
@@ -162,10 +162,10 @@ void UChessMovementComponent::CalcuNowNode()
 	UGridNode* tNode = MoveStack.Top();
 	if (!tNode)
 		return;
-	//»ñÈ¡½ÇÉ«Î»ÖÃµ½µ±Ç°ºÍÏÂÒ»¸öÆå¸ñµÄÎ»ÖÃ
+	//è·å–è§’è‰²ä½ç½®åˆ°å½“å‰å’Œä¸‹ä¸€ä¸ªæ£‹æ ¼çš„ä½ç½®
 	float tDistance = FVector::Dist2D(ActorOwner->GetActorLocation(), tNode->Location);
 	float uDistance = tNode->GetRealRadiusSize();
-	//Èç¹û¾ÙÒ»ÀıÎ»ÖÃĞ¡ÓÚÊµ¼Ê°ë¾¶µÄ¾àÀë£¬ÔòËã½øÈëÁËÆå¸ñ
+	//å¦‚æœä¸¾ä¸€ä¾‹ä½ç½®å°äºå®é™…åŠå¾„çš„è·ç¦»ï¼Œåˆ™ç®—è¿›å…¥äº†æ£‹æ ¼
 	if (tDistance <= uDistance)
 	{
 		SetNowNode(tNode);
@@ -173,7 +173,7 @@ void UChessMovementComponent::CalcuNowNode()
 
 }
 
-//ÉèÖÃÒÆ¶¯Â·¾¶
+//è®¾ç½®ç§»åŠ¨è·¯å¾„
 void UChessMovementComponent::SetMovePath(TArray<UGridNode*> InPath, bool bNeedReverse)
 {
 	if (bNeedReverse)
@@ -181,7 +181,7 @@ void UChessMovementComponent::SetMovePath(TArray<UGridNode*> InPath, bool bNeedR
 		Algo::Reverse(InPath);
 	}
 	MoveStack = InPath;
-	//¿ªÊ¼ÒÆ¶¯£¬¹ã²¥¿ªÊ¼ÒÆ¶¯Î¯ÍĞ
+	//å¼€å§‹ç§»åŠ¨ï¼Œå¹¿æ’­å¼€å§‹ç§»åŠ¨å§”æ‰˜
 	if (MoveStack.Num()>0)
 	{
 		SetBookNode(MoveStack.Top());

@@ -15,11 +15,11 @@ class UAnimNotify_Script : public UAnimNotify
 	GENERATED_BODY()
 
 public:
-	//µ÷ÓÃº¯ÊıÃû³Æ
+	//è°ƒç”¨å‡½æ•°åç§°
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FName FunctionName;
 
-	//´¥·¢Í¨ÖªÊ±µ÷ÓÃ
+	//è§¦å‘é€šçŸ¥æ—¶è°ƒç”¨
 	virtual void Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation) override;
 	
 };

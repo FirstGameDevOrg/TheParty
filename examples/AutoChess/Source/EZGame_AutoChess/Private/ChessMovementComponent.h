@@ -14,29 +14,29 @@ struct  FRotateTarget
 public:
 	GENERATED_USTRUCT_BODY()
 
-	//ÊÇ·ñ¼¤»î
+	//æ˜¯å¦æ¿€æ´»
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bActive = false;
 
-	//Ğı×ªÄ¿±ê½ÇÉ«
+	//æ—‹è½¬ç›®æ ‡è§’è‰²
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AActor* TargetActor;
 
-	//Ğı×ªÄ¿±êÈËÎï
+	//æ—‹è½¬ç›®æ ‡äººç‰©
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UGridNode* TargetNode;
 
-	//Ğı×ªÄ¿±êÖµ
+	//æ—‹è½¬ç›®æ ‡å€¼
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FRotator TargetRotation;
 
-	//Îó²î½Ç¶È
+	//è¯¯å·®è§’åº¦
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float StopOnDegree = 0;
 
 	FRotateTarget() {};
 
-	//¹¹½¨º¯Êı-´«Èë½Ç¶ÈÖµ
+	//æ„å»ºå‡½æ•°-ä¼ å…¥è§’åº¦å€¼
 	FRotateTarget(AActor* InActor, float InStopOnDegree)
 	{
 		this->bActive = true;
@@ -46,7 +46,7 @@ public:
 		this->StopOnDegree = InStopOnDegree;
 	}
 
-	//¹¹½¨º¯Êı-´«ÈëÆå¸ñ
+	//æ„å»ºå‡½æ•°-ä¼ å…¥æ£‹æ ¼
 	FRotateTarget(UGridNode* InNode, float InStopOnDegree)
 	{
 		this->bActive = true;
@@ -56,7 +56,7 @@ public:
 		this->StopOnDegree = InStopOnDegree;
 	}
 
-	//¹¹½¨º¯Êı-´«Èë½ÇÉ«
+	//æ„å»ºå‡½æ•°-ä¼ å…¥è§’è‰²
 	FRotateTarget(FRotator InRotator, float InStopOnDegree)
 	{
 		this->bActive = true;
@@ -66,13 +66,13 @@ public:
 		this->StopOnDegree = InStopOnDegree;
 	}
 
-	//µ±Ç°ÊÇ·ñ¼¤»î
+	//å½“å‰æ˜¯å¦æ¿€æ´»
 	bool IsValid() const
 	{
 		return bActive;
 	}
 
-	//»ñÈ¡Ä¿±êRotation
+	//è·å–ç›®æ ‡Rotation
 	FRotator GetRotation(FVector InLocation) const
 	{
 		if (TargetActor)
@@ -89,7 +89,7 @@ public:
 		}
 	}
 
-	//ÖØÖÃ
+	//é‡ç½®
 	void Reset()
 	{
 		bActive = false;
@@ -108,70 +108,70 @@ class UChessMovementComponent : public UMovementComponent
 	GENERATED_BODY()
 
 public:
-	//Tickº¯Êı
+	//Tickå‡½æ•°
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	//×é¼şÏú»Ù
+	//ç»„ä»¶é”€æ¯
 	virtual void OnComponentDestroyed(bool bDestroyingHierarchy) override;
 
-	//Á¢¿ÌÍ£Ö¹
+	//ç«‹åˆ»åœæ­¢
 	virtual void StopMovementImmediately() override;
 
 public:
 
-	//µ±Ç°Æå¸ñ
+	//å½“å‰æ£‹æ ¼
 	UPROPERTY(BlueprintReadOnly)
 	UGridNode* NowNode;
 
-	//Ô¤¶¨Æå¸ñ
+	//é¢„å®šæ£‹æ ¼
 	UPROPERTY(BlueprintReadOnly)
 	UGridNode* BookNode;
 
-	//ÒÆ¶¯Æå¸ñÕ»
+	//ç§»åŠ¨æ£‹æ ¼æ ˆ
 	UPROPERTY(BlueprintReadWrite)
 	TArray<UGridNode*> MoveStack;
 
-	//Ğı×ªÄ¿±ê
+	//æ—‹è½¬ç›®æ ‡
 	UPROPERTY(BlueprintReadWrite)
 	FRotateTarget RotateTarget;
 
-	//ÒÆ¶¯ËÙ¶È
+	//ç§»åŠ¨é€Ÿåº¦
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MaxMoveSpeed = 300.f;
 
-	//Ğı×ªËÙ¶È
+	//æ—‹è½¬é€Ÿåº¦
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MaxRotationRate = 360.f;
 
-	//ÉèÖÃµ±Ç°Æå¸ñ
+	//è®¾ç½®å½“å‰æ£‹æ ¼
 	UFUNCTION(BlueprintCallable)
 	void SetNowNode(UGridNode* InNode);
 
-	//ÉèÖÃÔ¤¶¨Æå¸ñ
+	//è®¾ç½®é¢„å®šæ£‹æ ¼
 	UFUNCTION(BlueprintCallable)
 	void SetBookNode(UGridNode* InNode);
 
-	//¼ÆËãµ±Ç°Æå¸ñ
+	//è®¡ç®—å½“å‰æ£‹æ ¼
 	UFUNCTION(BlueprintCallable)
 	void CalcuNowNode();
 
-	//ÉèÖÃÒÆ¶¯Â·¾¶
+	//è®¾ç½®ç§»åŠ¨è·¯å¾„
 	UFUNCTION(BlueprintCallable)
 	void SetMovePath(TArray<UGridNode*> InPath, bool bNeedReverse = true);
 
-	//Î¯ÍĞ-¿ªÊ¼ÒÆ¶¯Ê±´¥·¢
+	//å§”æ‰˜-å¼€å§‹ç§»åŠ¨æ—¶è§¦å‘
 	UPROPERTY(BlueprintAssignable)
 	FMoveDelegate OnMoveBegin;
 
-	//Î¯ÍĞ-µ½´ïÖĞ¼äÂ·µãÊ±´¥·¢
+	//å§”æ‰˜-åˆ°è¾¾ä¸­é—´è·¯ç‚¹æ—¶è§¦å‘
 	UPROPERTY(BlueprintAssignable)
 	FMoveDelegate OnMoveCheckPoint;
 
-	//Î¯ÍĞ-µ½´ïÖÕµãÊ±´¥·¢
+	//å§”æ‰˜-åˆ°è¾¾ç»ˆç‚¹æ—¶è§¦å‘
 	UPROPERTY(BlueprintAssignable)
 	FMoveDelegate OnMoveComplete;
 
-	//Î¯ÍĞ-Íê³ÉĞı×ª
+	//å§”æ‰˜-å®Œæˆæ—‹è½¬
 	UPROPERTY(BlueprintAssignable)
 	FMoveDelegate OnRotateComplete;
 	
