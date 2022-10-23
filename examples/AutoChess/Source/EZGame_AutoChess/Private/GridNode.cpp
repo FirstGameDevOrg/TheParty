@@ -4,7 +4,7 @@
 #include "GridNode.h"
 #include "GridMap.h"
 
-//³õÊ¼»¯º¯Êı
+//åˆå§‹åŒ–å‡½æ•°
 void UGridNode::InitNode(AGridMap* InGridMap, FVector InLocation, FGridVector InCoordinate, float InSize)
 {
 	GridMap = InGridMap;
@@ -13,19 +13,19 @@ void UGridNode::InitNode(AGridMap* InGridMap, FVector InLocation, FGridVector In
 	Size = InSize;
 }
 
-//»ñÈ¡ÏàÁÚÆå¸ñ
+//è·å–ç›¸é‚»æ£‹æ ¼
 TArray<UGridNode*> UGridNode::GetNeighbors()
 {
 	TArray<UGridNode*> Nodes;
 	return Nodes;
 }
 
-//ÅĞ¶ÏÆå¸ñÊÇ·ñÄÜÍ¨ĞĞ
+//åˆ¤æ–­æ£‹æ ¼æ˜¯å¦èƒ½é€šè¡Œ
 bool UGridNode::CanPass(AActor* InActor) const
 {
 	if (PassFlag >= ENodePassFlag::Block)
 		return false;
-	//ÅĞ¶ÏÊÇ·ñÓĞÆäËûÆå×ÓÕ¾ÔÚµ±Ç°Æå¸ñÉÏ
+	//åˆ¤æ–­æ˜¯å¦æœ‰å…¶ä»–æ£‹å­ç«™åœ¨å½“å‰æ£‹æ ¼ä¸Š
 	if (NodeActors.Num() > 0 && InActor)
 	{
 		if (NodeActors.Contains(InActor))
@@ -36,7 +36,7 @@ bool UGridNode::CanPass(AActor* InActor) const
 	return true;
 }
 
-//Ô¤¶¨Æå¸ñ
+//é¢„å®šæ£‹æ ¼
 void UGridNode::BookNode(AActor* InActor)
 {
 	if (InActor)
@@ -46,7 +46,7 @@ void UGridNode::BookNode(AActor* InActor)
 	}
 }
 
-//È¡ÏûÔ¤¶¨Æå¸ñ
+//å–æ¶ˆé¢„å®šæ£‹æ ¼
 void UGridNode::CancelBookNode(AActor* InActor)
 {
 	if (InActor && NodeActors.Contains(InActor))
@@ -56,7 +56,7 @@ void UGridNode::CancelBookNode(AActor* InActor)
 	}
 }
 
-//½øÈëÆå¸ñ
+//è¿›å…¥æ£‹æ ¼
 void UGridNode::EnterNode(AActor* InActor)
 {
 	if (InActor)
@@ -66,7 +66,7 @@ void UGridNode::EnterNode(AActor* InActor)
 	}
 }
 
-//Àë¿ªÆå¸ñ
+//ç¦»å¼€æ£‹æ ¼
 void UGridNode::LeaveNode(AActor* InActor)
 {
 	if (InActor && NodeActors.Contains(InActor))

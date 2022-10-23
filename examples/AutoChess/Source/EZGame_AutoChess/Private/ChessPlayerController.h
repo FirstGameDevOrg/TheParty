@@ -12,7 +12,7 @@ class APawn;
 class UAITask_MoveToNode;
 class UAITask_TurnTo;
 
-//DebugÄ£Ê½
+//Debugæ¨¡å¼
 UENUM(BlueprintType)
 enum class EChessDebugMode : uint8
 {
@@ -32,69 +32,69 @@ class AChessPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-	//»ù´¡-°ó¶¨ÊäÈë-¸²¸Ç
+	//åŸºç¡€-ç»‘å®šè¾“å…¥-è¦†ç›–
 	virtual void SetupInputComponent() override;
 
 public:
-	//»ù´¡-¹¹Ôìº¯Êı
+	//åŸºç¡€-æ„é€ å‡½æ•°
 	AChessPlayerController();
 
-	//»ù´¡-µ±Ç°ÆåÅÌ
+	//åŸºç¡€-å½“å‰æ£‹ç›˜
 	UPROPERTY(BlueprintReadWrite)
 	AGridMap* BattleMap;
 
-	//»ù´¡-ÒÑÑ¡ÖĞÆå¸ñ
+	//åŸºç¡€-å·²é€‰ä¸­æ£‹æ ¼
 	UPROPERTY(BlueprintReadWrite)
 	TArray<UGridNode*> SelectedNodes;
 
-	//»ù´¡-ÒÑÑ¡ÖĞ½ÇÉ«
+	//åŸºç¡€-å·²é€‰ä¸­è§’è‰²
 	UPROPERTY(BlueprintReadWrite)
 	APawn* SelectedPawn;
 
-	//»ù´¡-DebugÄ£Ê½
+	//åŸºç¡€-Debugæ¨¡å¼
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EChessDebugMode DebugMode = EChessDebugMode::None;
 
-	//»ù´¡-»ñÈ¡ÆåÅÌ
+	//åŸºç¡€-è·å–æ£‹ç›˜
 	UFUNCTION(BlueprintCallable)
 	AGridMap* GetBattleMap();
 
-	//»ù´¡-Ë¢ĞÂÑ¡ÖĞÆå¸ñ
+	//åŸºç¡€-åˆ·æ–°é€‰ä¸­æ£‹æ ¼
 	UFUNCTION()
 	void FlushCheckNodes();
 
-	//»ù´¡-»ñÈ¡Êó±ê¶ÔÓ¦ÆåÅÌµÄÎ»ÖÃ
+	//åŸºç¡€-è·å–é¼ æ ‡å¯¹åº”æ£‹ç›˜çš„ä½ç½®
 	UFUNCTION()
 	FVector GetMouseCursorPosition() const;
 
-	//»ù´¡-×ó¼üÊÂ¼ş
+	//åŸºç¡€-å·¦é”®äº‹ä»¶
 	UFUNCTION()
 	void HandleLeftClick();
 
-	//»ù´¡-ÓÒ¼üÊÂ¼ş
+	//åŸºç¡€-å³é”®äº‹ä»¶
 	UFUNCTION()
 	void HandleRightClick();
 
-	//»ù´¡-DebugÑ°Â·
+	//åŸºç¡€-Debugå¯»è·¯
 	UFUNCTION()
 	void HandleDebugPath();
 
-	//»ù´¡-Debug½ÇÉ«
+	//åŸºç¡€-Debugè§’è‰²
 	UFUNCTION()
 	void HandleDebugPawn();
 
-	//»ù´¡-DebugMoveToTask
+	//åŸºç¡€-DebugMoveToTask
 	UFUNCTION()
 	void HandleDebugTaskMove();
 
-	//µ±Ç°MoveToTask
+	//å½“å‰MoveToTask
 	UAITask_MoveToNode* NowMoveTask;
 
-	//»ù´¡-DebugTurnToTask
+	//åŸºç¡€-DebugTurnToTask
 	UFUNCTION()
 	void HandleDebugTaskRotate();
 
-	//µ±Ç°TurnToTask
+	//å½“å‰TurnToTask
 	UAITask_TurnTo* NowRotateTask;
 
 };

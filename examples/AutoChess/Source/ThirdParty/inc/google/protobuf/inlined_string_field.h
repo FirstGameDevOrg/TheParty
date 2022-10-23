@@ -30,7 +30,7 @@
 
 #ifndef GOOGLE_PROTOBUF_INLINED_STRING_FIELD_H__
 #define GOOGLE_PROTOBUF_INLINED_STRING_FIELD_H__
-
+#pragma warning(disable:4668)
 #include <string>
 #include <utility>
 

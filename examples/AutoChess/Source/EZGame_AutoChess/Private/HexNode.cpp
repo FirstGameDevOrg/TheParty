@@ -3,13 +3,13 @@
 
 #include "HexNode.h"
 
-//¹¹Ôìº¯Êı£¬ÉèÖÃ»ù´¡ÊôĞÔ
+//æ„é€ å‡½æ•°ï¼Œè®¾ç½®åŸºç¡€å±æ€§
 UHexNode::UHexNode()
 {
 	NodeType = EGridType::Hex;
 }
 
-//»ñÈ¡ÏàÁÚÆå¸ñ
+//è·å–ç›¸é‚»æ£‹æ ¼
 TArray<UGridNode*> UHexNode::GetNeighbors()
 {
 	TArray<UGridNode*> tNodes;
@@ -28,7 +28,7 @@ TArray<UGridNode*> UHexNode::GetNeighbors()
 	return tNodes;
 }
 
-//»æÖÆÁù±ßĞÎÄ£ĞÍ
+//ç»˜åˆ¶å…­è¾¹å½¢æ¨¡å‹
 void UHexNode::DrawNode(TArray<FVector>& InVertices,
 	TArray<int32>& InIndecies,
 	TArray<FVector>& InNormals,
@@ -37,7 +37,7 @@ void UHexNode::DrawNode(TArray<FVector>& InVertices,
 	TArray<FVector>& InTangents,
 	FVector InOffset)
 {
-	//¶¥µã
+	//é¡¶ç‚¹
 	TArray<FVector> HexVerts;
 	HexVerts.AddUninitialized(7);
 	HexVerts[0] = Location - InOffset;
@@ -47,7 +47,7 @@ void UHexNode::DrawNode(TArray<FVector>& InVertices,
 	HexVerts[4] = FVector(-Size, 0, 0) + Location - InOffset;
 	HexVerts[5] = FVector(-0.5 * Size, -0.5 * FMath::Sqrt(3) * Size, 0) + Location - InOffset;
 	HexVerts[6] = FVector(0.5 * Size, -0.5 * FMath::Sqrt(3) * Size, 0) + Location - InOffset;
-	//¶¥µãË÷Òı
+	//é¡¶ç‚¹ç´¢å¼•
 	TArray<int32> Indices;
 	Indices.AddUninitialized(18);
 	Indices[0] = 0; Indices[1] = 2; Indices[2] = 1;
@@ -56,7 +56,7 @@ void UHexNode::DrawNode(TArray<FVector>& InVertices,
 	Indices[9] = 0; Indices[10] = 5; Indices[11] = 4;
 	Indices[12] = 0; Indices[13] = 6; Indices[14] = 5;
 	Indices[15] = 0; Indices[16] = 1; Indices[17] = 6;
-	//·¨Ïß
+	//æ³•çº¿
 	TArray<FVector> Normals;
 	Normals.Init(FVector(0, 0, 1), 7);
 	//UV
@@ -68,13 +68,13 @@ void UHexNode::DrawNode(TArray<FVector>& InVertices,
 	UV[4] += FVector2D(0.0f, -0.5f);
 	UV[5] += FVector2D(-0.25f * FMath::Sqrt(3), -0.25f);
 	UV[6] += FVector2D(-0.25f * FMath::Sqrt(3), 0.25f);
-	//¶¥µãÑÕÉ«
+	//é¡¶ç‚¹é¢œè‰²
 	TArray<FColor> VertexColors;
 	VertexColors.Init(FColor::White, 7);
-	//ÇĞÏß
+	//åˆ‡çº¿
 	TArray<FVector> Tangents;
 	Tangents.Init(FVector(1, 0, 0), 7);
-	//»Ø´«
+	//å›ä¼ 
 	InVertices = HexVerts;
 	InIndecies = Indices;
 	InNormals = Normals;

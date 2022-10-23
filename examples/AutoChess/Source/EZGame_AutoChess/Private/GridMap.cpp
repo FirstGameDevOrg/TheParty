@@ -5,7 +5,7 @@
 #include "HexNode.h"
 #include "ProceduralMeshComponent.h"
 
-//¹¹Ôìº¯Êý
+//ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
 AGridMap::AGridMap()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -13,15 +13,15 @@ AGridMap::AGridMap()
 	this->SetRootComponent(Mesh);
 }
 
-//ÓÎÏ·µÚÒ»Ö¡µ÷ÓÃ
+//ï¿½ï¿½Ï·ï¿½ï¿½Ò»Ö¡ï¿½ï¿½ï¿½ï¿½
 void AGridMap::BeginPlay()
 {
 	Super::BeginPlay();
-	//ÖØÐÂÉú³ÉÆåÅÌ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	GenerateGridMap();
 }
 
-//³õÊ¼»¯ÊôÐÔÊ±µ÷ÓÃ
+//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
 void AGridMap::PostInitProperties()
 {
 	Super::PostInitProperties();
@@ -29,58 +29,58 @@ void AGridMap::PostInitProperties()
 }
 
 #if WITH_EDITOR
-//±à¼­Æ÷ÖÐ¸Ä±äÊôÐÔÊ±µ÷ÓÃ
+//ï¿½à¼­ï¿½ï¿½ï¿½Ð¸Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
 void AGridMap::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
-	//µ±ÐÐ¡¢ÁÐ¡¢´óÐ¡¸Ä±äÊ±ÖØÐÂÉú³ÉÆåÅÌ
+	//ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½Ð¡ï¿½Ä±ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (PropertyChangedEvent.Property->GetName() == "Roll"
 		|| PropertyChangedEvent.Property->GetName() == "Colume"
 		|| PropertyChangedEvent.Property->GetName() == "Size")
 	{
-		//ÖØÐÂÉú³ÉÆåÅÌ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		GenerateGridMap();
 	}
 
 }
 #endif
 
-//Éú³ÉÆåÅÌÈë¿Ú
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void AGridMap::GenerateGridMap()
 {
 	for (auto a : NodeMap)
 	{
-		//±ê¼ÇÀ¬»ø»ØÊÕ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (a.Value)
 			a.Value->MarkPendingKill();
 	}
-	//ÖØÖÃMap
+	//ï¿½ï¿½ï¿½ï¿½Map
 	NodeMap.Reset();
-	//ÖØÐÂÉú³ÉÆå¸ñ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	GenerateNodes(Size, Roll, Colume);
-	//ÖØÐÂÉú³ÉÄ£ÐÍ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
 	GenerateMapMesh();
 }
 
-//Éú³ÉÆå¸ñÈë¿Ú
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void AGridMap::GenerateNodes(float InSize, int InRoll, int InColume)
 {
 	switch (MapType)
 	{
 	case EGridType::None:
 		break;
-	//Áù±ßÐÎÆå¸ñ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	case EGridType::Hex:
 		GenerateHexNodes(InSize, InRoll, InColume);
 		break;
 	default:
 		break;
 	}
-	//³õÊ¼»¯Æå¸ñ
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	InitNodes();
 }
 
-//Éú³ÉÁù±ßÐÎÆå¸ñ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void AGridMap::GenerateHexNodes(float InHexSize, int InRoll, int InColume)
 {
 	FVector tHexLocation;
@@ -88,28 +88,28 @@ void AGridMap::GenerateHexNodes(float InHexSize, int InRoll, int InColume)
 	{
 		for (int j = 0; j < InColume; ++j)
 		{
-			//UEÖÐºáÏò×ø±êÖáÎªY£¬×ÝÏò×ø±êÖáÎªX£¬ÐèÒªµ÷»»ÔÚ¶þÎ¬×ø±êÏµXYµÄÖµ
+			//UEï¿½Ðºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªYï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªXï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½Î¬ï¿½ï¿½ï¿½ï¿½ÏµXYï¿½ï¿½Öµ
 			FGridVector tHexVector = FGridVector(j, i);
 			tHexLocation.X = 1.5 * InHexSize * i;
 			tHexLocation.Y = i % 2 == 0 ? (FMath::Sqrt(3) * InHexSize * j) : (FMath::Sqrt(3) * InHexSize * j + FMath::Sqrt(3) * 0.5 * InHexSize);
 			tHexLocation.Z = 0;
 			tHexLocation += GetActorLocation();
 			UHexNode* tNode = NewObject<UHexNode>(this);
-			//Æå¸ñ³õÊ¼»¯
+			//ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 			tNode->InitNode(this, tHexLocation, tHexVector, InHexSize);
 			NodeMap.Add(tHexVector, tNode);
 		}
 	}
 }
 
-//³õÊ¼»¯Æå¸ñÈë¿Ú
+//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void AGridMap::InitNodes()
 {
 	switch (MapType)
 	{
 	case EGridType::None:
 		break;
-	//Áù±ßÐÎÆå¸ñ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	case EGridType::Hex:
 		InitHexNodes();
 		break;
@@ -118,10 +118,10 @@ void AGridMap::InitNodes()
 	}
 }
 
-//³õÊ¼»¯Áù±ßÐÎÆå¸ñ
+//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void AGridMap::InitHexNodes()
 {
-	//ÉèÖÃÁù±ßÐÎÆå¸ñÏàÁÚÆå¸ñ£¬ÅÐ¶Ï¶ÔÓ¦×ø±êÆå¸ñÊÇ·ñ´æÔÚ£¬²¢¸³Öµ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ï¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 	for (auto a : NodeMap)
 	{
 		UHexNode* tHexNode = Cast<UHexNode>(a.Value);
@@ -154,7 +154,7 @@ void AGridMap::InitHexNodes()
 	}
 }
 
-//¸ù¾ÝÆåÅÌ×ø±ê»ñÈ¡Æå¸ñ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½
 UGridNode* AGridMap::GetNode(FGridVector InCoord) const
 {
 	if (NodeMap.Contains(InCoord))
@@ -168,32 +168,32 @@ UGridNode* AGridMap::GetNode(FGridVector InCoord) const
 bool AGridMap::FindPath(TArray<UGridNode*>& Path, AActor* InActor, UGridNode* FromNode, UGridNode* ToNode, int StopSteps)
 {
 	Path.Empty();
-	//°²È«ÅÐ¶Ï
+	//ï¿½ï¿½È«ï¿½Ð¶ï¿½
 	if (!FromNode || !ToNode)
 		return false;
 	if (!NodeMap.FindKey(FromNode) || !NodeMap.FindKey(ToNode))
 		return false;
-	//»ñÈ¡Êµ¼ÊËùÓÐÖÕµã
+	//ï¿½ï¿½È¡Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½
 	TArray<UGridNode*> ToNodes = GetNodeNeighbors(ToNode, StopSteps);
 	for (int i = ToNodes.Num() - 1; i >= 0; i--)
 	{
 		if (!ToNodes[i]->CanPass(InActor))
 			ToNodes.RemoveAt(i);
 	}
-	//ÅÐ¶ÏÆðµãÖÕµãÊÇ·ñ´æÔÚ
+	//ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
 	if (!FromNode->CanPass(InActor))
 		return false;
 	if (ToNodes.Num() == 0)
 		return false;
-	//ÅÐ¶ÏÊÇ·ñÒÑ¾­µ½´ïÖÕµã
+	//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½
 	if (ToNodes.Contains(FromNode))
 		return true;
 	
-	//½«Òª±éÀúµÄÂ·µã
+	//ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 	TArray<UGridNode*> openList;
-	//ÒÑ¾­Íê³É±éÀúµÄÂ·µã
+	//ï¿½Ñ¾ï¿½ï¿½ï¿½É±ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 	TArray<UGridNode*> closeList;
-	//µ±Ç°ËùÔÚÂ·µã
+	//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 	UGridNode* nowNode;
 	nowNode = FromNode;
 	openList.Add(nowNode);
@@ -201,33 +201,33 @@ bool AGridMap::FindPath(TArray<UGridNode*>& Path, AActor* InActor, UGridNode* Fr
 	//A*Ñ°Â·
 	while (!bFinded)
 	{
-		//ÒÆ³ýopenList£¬¼ÓÈëcloseList
+		//ï¿½Æ³ï¿½openListï¿½ï¿½ï¿½ï¿½ï¿½ï¿½closeList
 		openList.Remove(nowNode);
 		closeList.Add(nowNode);
-		//»ñÈ¡ÏàÁÚÂ·µã
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 		TArray<UGridNode*> neighbors = nowNode->GetNeighbors();
 		for (auto neighbor : neighbors)
 		{
 			if (!neighbor)
 				continue;
-			//ÅÐ¶ÏÏàÁÚÂ·µãÊÇ·ñÎªÖÕµã
+			//ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ç·ï¿½Îªï¿½Õµï¿½
 			if (ToNodes.Contains(neighbor))
 			{
 				bFinded = true;
 				ToNode = neighbor;
 				neighbor->PreNode = nowNode;
 			}
-			//Èç¹ûÔÚcloseList»ò²»ÄÜÍ¨ÐÐÔòÌø¹ý
+			//ï¿½ï¿½ï¿½ï¿½ï¿½closeListï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (closeList.Contains(neighbor) || !neighbor->CanPass(InActor))
 				continue;
-			//Èç¹û²»ÔÚopenlist£¬Ôò¼ÓÈëopenlistµÄ¶ÓÎ²£¬ÒÔ±¸ºóÓÃ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½openlistï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½openlistï¿½Ä¶ï¿½Î²ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (!openList.Contains(neighbor))
 			{
 				openList.Add(neighbor);
 				neighbor->PreNode = nowNode;
 			}
 		}
-		//È¡³ö¶ÓÊ×µÄÂ·µã£¬ÉèÖÃÎªÏÂ´ÎÑ­»·±éÀúµÄÂ·µã
+		//È¡ï¿½ï¿½ï¿½ï¿½ï¿½×µï¿½Â·ï¿½ã£¬ï¿½ï¿½ï¿½ï¿½Îªï¿½Â´ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 		if (openList.Num() <= 0)
 			break;
 		else
@@ -235,7 +235,7 @@ bool AGridMap::FindPath(TArray<UGridNode*>& Path, AActor* InActor, UGridNode* Fr
 	}
 	openList.Empty();
 	closeList.Empty();
-	//ÕÒµ½ÁËÂ·¾¶
+	//ï¿½Òµï¿½ï¿½ï¿½Â·ï¿½ï¿½
 	if (bFinded)
 	{
 		UGridNode* tNode = ToNode;
@@ -244,7 +244,7 @@ bool AGridMap::FindPath(TArray<UGridNode*>& Path, AActor* InActor, UGridNode* Fr
 			Path.Add(tNode);
 			tNode = Cast<UGridNode>(tNode->PreNode);
 		}
-		//»ñÈ¡µÄÂ·¾¶Ê±´ÓÖÕµã->ÆðµãµÄÂ·¾¶£¬ÐèÒª·´×ª»ØÆðµã->ÖÕµãµÄÂ·¾¶
+		//ï¿½ï¿½È¡ï¿½ï¿½Â·ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Õµï¿½->ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½->ï¿½Õµï¿½ï¿½Â·ï¿½ï¿½
 		Algo::Reverse(Path);
 
 		return true;
@@ -254,15 +254,15 @@ bool AGridMap::FindPath(TArray<UGridNode*>& Path, AActor* InActor, UGridNode* Fr
 
 }
 
-//ÅÐ¶ÏÂ·¾¶ÊÇ·ñ´æÔÚ
+//ï¿½Ð¶ï¿½Â·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
 bool AGridMap::IsPathExist(AActor* InActor, UGridNode* FromNode, UGridNode* ToNode, int StopSteps)
 {
-	//»Ø´«FindPathµÄÖµ
+	//ï¿½Ø´ï¿½FindPathï¿½ï¿½Öµ
 	TArray<UGridNode*> Path;
 	return FindPath(Path, InActor, FromNode, ToNode, StopSteps);
 }
 
-//»ñÈ¡ÏàÁÚÆå¸ñ
+//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 TArray<UGridNode*> AGridMap::GetNodeNeighbors(UGridNode* InNode, int InStep) const
 {
 	int neighborSteps = InStep;
@@ -272,7 +272,7 @@ TArray<UGridNode*> AGridMap::GetNodeNeighbors(UGridNode* InNode, int InStep) con
 	nextCheckList.AddUnique(InNode);
 	findList.AddUnique(InNode);
 
-	//Ê¹ÓÃWhile£¬ÏòÍâ²ã²ãÅÐ¶Ï
+	//Ê¹ï¿½ï¿½Whileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
 	while (neighborSteps > 0)
 	{
 		nowCheckList = nextCheckList;
@@ -296,12 +296,12 @@ TArray<UGridNode*> AGridMap::GetNodeNeighbors(UGridNode* InNode, int InStep) con
 	return findList;
 }
 
-//Éú³ÉÆåÅÌÄ£ÐÍ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
 void AGridMap::GenerateMapMesh()
 {
-	//Ä£ÐÍË÷Òý£¬±íÊ¾Æå¸ñÊÇMeshÉÏµÚ¼¸¸ö·ÖÇø
+	//Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Meshï¿½ÏµÚ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int Index = 0;
-	//ÖØÖÃ
+	//ï¿½ï¿½ï¿½ï¿½
 	Mesh->ClearAllMeshSections();
 	for (auto a : NodeMap)
 	{
@@ -314,23 +314,23 @@ void AGridMap::GenerateMapMesh()
 		TArray<FColor> VertexColors;
 		TArray<FVector> Tangents;
 		TArray<FProcMeshTangent> MeshTangents;
-		//Ë÷Òý¸³Öµ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 		a.Value->MeshIndex = Index;
-		//µ÷ÓÃDrawNode£¬ÒÔÒýÓÃ·½Ê½»Ø´«»æÖÆÐÅÏ¢
+		//ï¿½ï¿½ï¿½ï¿½DrawNodeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½Ê½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		a.Value->DrawNode(Vertices, Indecies, Normals, UV1, VertexColors, Tangents, GetActorLocation());
-		//ÓÃÇÐÏßÏòÁ¿Éú³ÉÇÐÏß½á¹¹Ìå
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß½á¹¹ï¿½ï¿½
 		for (FVector& b : Tangents)
 			MeshTangents.Add(FProcMeshTangent(b, false));
-		//Éú³ÉË÷ÒýÇø¿éÄ£ÐÍ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
 		Mesh->CreateMeshSection(Index, Vertices, Indecies, Normals, UV1, EmptyArray, EmptyArray, EmptyArray, VertexColors, MeshTangents, false);
-		//ÉèÖÃ²ÄÖÊ
+		//ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½
 		ResetNodeMaterial(a.Value);
 		Index++;
 	}
 
 }
 
-//ÉèÖÃÄ£ÐÍ²ÄÖÊ
+//ï¿½ï¿½ï¿½ï¿½Ä£ï¿½Í²ï¿½ï¿½ï¿½
 void AGridMap::SetNodeMaterial(UGridNode* InNode, UMaterialInterface* InMaterial)
 {
 	if (!InNode || !InMaterial)
@@ -338,7 +338,7 @@ void AGridMap::SetNodeMaterial(UGridNode* InNode, UMaterialInterface* InMaterial
 	Mesh->SetMaterial(InNode->MeshIndex, InMaterial);
 }
 
-//ÖØÖÃÄ£ÐÍ²ÄÖÊ
+//ï¿½ï¿½ï¿½ï¿½Ä£ï¿½Í²ï¿½ï¿½ï¿½
 void AGridMap::ResetNodeMaterial(UGridNode* InNode)
 {
 	if (!InNode)
@@ -349,7 +349,7 @@ void AGridMap::ResetNodeMaterial(UGridNode* InNode)
 		SetNodeMaterial(InNode, DebugMaterial1);
 		return;
 	}
-	//¸ù¾ÝÍ¨ÐÐ×´Ì¬ÉèÖÃ²ÄÖÊ
+	//ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½
 	if (InNode->PassFlag == ENodePassFlag::Pass && PassMaterial)
 		SetNodeMaterial(InNode, PassMaterial);
 	else if (InNode->PassFlag == ENodePassFlag::Block && BlockMaterial)
@@ -357,7 +357,7 @@ void AGridMap::ResetNodeMaterial(UGridNode* InNode)
 	
 }
 
-//ÖØÖÃËùÓÐÄ£ÐÍ²ÄÖÊ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½Í²ï¿½ï¿½ï¿½
 void AGridMap::ResetNodeMaterialAll()
 {
 	for (auto a : NodeMap)
@@ -368,11 +368,11 @@ void AGridMap::ResetNodeMaterialAll()
 	}
 }
 
-//ÅÐ¶ÏÊÇ·ñÔÚÆå¸ñÄÚ
+//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 UGridNode* AGridMap::CheckHitNode(FVector InPosition)
 {
 	UGridNode* tHitNode = nullptr;
-	//ÅÐ¶ÏZÖá£¬²î¾à¹ý´óÖ±½Ó·µ»Ø
+	//ï¿½Ð¶ï¿½Zï¿½á£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó·ï¿½ï¿½ï¿½
 	if (FMath::Abs(InPosition.Z - GetActorLocation().Z) > 1)
 		return tHitNode;
 	switch (MapType)
@@ -388,7 +388,7 @@ UGridNode* AGridMap::CheckHitNode(FVector InPosition)
 	return tHitNode;
 }
 
-//ÅÐ¶ÏÊÇ·ñÔÚÁù±ßÐÎÄÚ
+//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //https://blog.csdn.net/iteye_10018/article/details/82541460
 UGridNode* AGridMap::CheckHitHexNode(FVector InPosition)
 {

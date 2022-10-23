@@ -9,7 +9,7 @@
 class AGridMap;
 class AActor;
 
-/*Æå¸ñ×ø±ê*/
+/*æ£‹æ ¼åæ ‡*/
 USTRUCT(BlueprintType)
 struct  FGridVector
 {
@@ -29,13 +29,13 @@ public:
 		this->Y = InY;
 	}
 
-	//ÖØÔØÔËËã·û==£¬Âú×ãTMapÖĞKeyµÄ¹æ·¶
+	//é‡è½½è¿ç®—ç¬¦==ï¼Œæ»¡è¶³TMapä¸­Keyçš„è§„èŒƒ
 	FORCEINLINE friend bool operator==(const FGridVector& Lhs, const FGridVector& Rhs)
 	{
 		return (Lhs.X == Rhs.X) && (Lhs.Y == Rhs.Y);
 	}
 
-	//ÖØÔØÔËËã·û+£¬Âú×ã»ù±¾¼Ó·¨ÔËËã
+	//é‡è½½è¿ç®—ç¬¦+ï¼Œæ»¡è¶³åŸºæœ¬åŠ æ³•è¿ç®—
 	FGridVector operator+ (const FGridVector& F)
 	{
 		return FGridVector(this->X + F.X, this->Y + F.Y);
@@ -43,13 +43,13 @@ public:
 
 };
 
-//GetTypeHash£¬Âú×ãTMapÖĞKeyµÄ¹æ·¶
+//GetTypeHashï¼Œæ»¡è¶³TMapä¸­Keyçš„è§„èŒƒ
 FORCEINLINE uint32 GetTypeHash(const FGridVector& Key)
 {
 	return HashCombine(GetTypeHash(Key.X), GetTypeHash(Key.Y));
 }
 
-/*Æå¸ñĞÎ×´*/
+/*æ£‹æ ¼å½¢çŠ¶*/
 UENUM(BlueprintType)
 enum class EGridType : uint8
 {
@@ -57,7 +57,7 @@ enum class EGridType : uint8
 	Hex,
 };
 
-/*Æå¸ñÍ¨ĞĞ×´Ì¬*/
+/*æ£‹æ ¼é€šè¡ŒçŠ¶æ€*/
 UENUM(BlueprintType)
 enum class ENodePassFlag : uint8
 {
@@ -71,74 +71,74 @@ class UGridNode : public UObject
 	GENERATED_BODY()
 
 public:
-	//»ù´¡-Æå¸ñ´óĞ¡
+	//åŸºç¡€-æ£‹æ ¼å¤§å°
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Size;
 
-	//»ù´¡-ÊÀ½ç¿Õ¼ä×ø±ê
+	//åŸºç¡€-ä¸–ç•Œç©ºé—´åæ ‡
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector Location;
 
-	//»ù´¡-ÆåÅÌ¿Õ¼ä×ø±ê
+	//åŸºç¡€-æ£‹ç›˜ç©ºé—´åæ ‡
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FGridVector Coordinate;
 
-	//»ù´¡-Æå¸ñĞÎ×´
+	//åŸºç¡€-æ£‹æ ¼å½¢çŠ¶
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EGridType NodeType = EGridType::None;
 
-	//»ù´¡-ËùÊôÆåÅÌ
+	//åŸºç¡€-æ‰€å±æ£‹ç›˜
 	UPROPERTY(BlueprintReadWrite)
 	AGridMap* GridMap;
 
-	//»ù´¡-³õÊ¼»¯º¯Êı
+	//åŸºç¡€-åˆå§‹åŒ–å‡½æ•°
 	UFUNCTION(BlueprintCallable)
 	virtual void InitNode(AGridMap* InGridMap, FVector InLocation, FGridVector InCoordinate, float InSize);
 
-	//»ù´¡-»ñÈ¡ÏàÁÚÆå¸ñ
+	//åŸºç¡€-è·å–ç›¸é‚»æ£‹æ ¼
 	UFUNCTION(BlueprintCallable)
 	virtual TArray<UGridNode*> GetNeighbors();
 
-	//Ñ°Â·-Í¨ĞĞ×´Ì¬
+	//å¯»è·¯-é€šè¡ŒçŠ¶æ€
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
 	ENodePassFlag PassFlag = ENodePassFlag::Pass;
 
-	//Ñ°Â·-Ñ°Â·»º´æ
+	//å¯»è·¯-å¯»è·¯ç¼“å­˜
 	UGridNode* PreNode;
 
-	//Ñ°Â·-ÅĞ¶ÏÆå¸ñÊÇ·ñÄÜÍ¨ĞĞ
+	//å¯»è·¯-åˆ¤æ–­æ£‹æ ¼æ˜¯å¦èƒ½é€šè¡Œ
 	UFUNCTION(BlueprintCallable, Category = "Navigation")
 	virtual bool CanPass(AActor* InActor) const;
 
-	//Ñ°Â·-Æå¸ñÖĞµÄµ¥Î»
+	//å¯»è·¯-æ£‹æ ¼ä¸­çš„å•ä½
 	UPROPERTY(BlueprintReadWrite, Category = "Navigation")
 	TArray<AActor*> NodeActors;
 
-	//Ñ°Â·-Ô¤¶¨Æå¸ñ
+	//å¯»è·¯-é¢„å®šæ£‹æ ¼
 	UFUNCTION(BlueprintCallable)
 	virtual void BookNode(AActor* InActor);
 
-	//Ñ°Â·-È¡ÏûÔ¤¶¨Æå¸ñ
+	//å¯»è·¯-å–æ¶ˆé¢„å®šæ£‹æ ¼
 	UFUNCTION(BlueprintCallable)
 	virtual void CancelBookNode(AActor* InActor);
 
-	//Ñ°Â·-½øÈëÆå¸ñ
+	//å¯»è·¯-è¿›å…¥æ£‹æ ¼
 	UFUNCTION(BlueprintCallable)
 	virtual void EnterNode(AActor* InActor);
 
-	//Ñ°Â·-Àë¿ªÆå¸ñ
+	//å¯»è·¯-ç¦»å¼€æ£‹æ ¼
 	UFUNCTION(BlueprintCallable)
 	virtual void LeaveNode(AActor* InActor);
 
-	//Ñ°Â·-»ñÈ¡Á½Á½Æå¸ñµÄÊµ¼Ê¾àÀë
+	//å¯»è·¯-è·å–ä¸¤ä¸¤æ£‹æ ¼çš„å®é™…è·ç¦»
 	UFUNCTION(BlueprintCallable)
 	virtual float GetRealRadiusSize() const { return Size; };
 
-	//Ä£ĞÍ-Æå¸ñÄ£ĞÍË÷Òı
+	//æ¨¡å‹-æ£‹æ ¼æ¨¡å‹ç´¢å¼•
 	UPROPERTY()
 	int MeshIndex;
 
-	//Ä£ĞÍ-»æÖÆÄ£ĞÍ
+	//æ¨¡å‹-ç»˜åˆ¶æ¨¡å‹
 	UFUNCTION()
 	virtual void DrawNode(TArray<FVector>& InVertices,
 			TArray<int32>& InIndecies,

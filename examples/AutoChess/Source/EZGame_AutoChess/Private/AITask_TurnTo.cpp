@@ -5,14 +5,14 @@
 #include "AIController.h"
 #include "ChessMovementComponent.h"
 
-//´´½¨Task¶ÔÏó-¾²Ì¬
+//åˆ›å»ºTaskå¯¹è±¡-é™æ€
 UAITask_TurnTo* UAITask_TurnTo::AITurnTo(AAIController* Controller, AActor* GoalActor, UGridNode* GoalNode, FRotator GoalRotation, float StopOnDegree)
 {
 	if (!Controller)
 		return nullptr;
-	//´´½¨Task¶ÔÏó
+	//åˆ›å»ºTaskå¯¹è±¡
 	UAITask_TurnTo* MyTask = UAITask::NewAITask<UAITask_TurnTo>(*Controller, EAITaskPriority::High);
-	//ÉèÖÃ»ù±¾ÊôĞÔ
+	//è®¾ç½®åŸºæœ¬å±æ€§
 	MyTask->GoalActor = GoalActor;
 	MyTask->GoalNode = GoalNode;
 	MyTask->GoalRotation = GoalRotation;
@@ -20,24 +20,24 @@ UAITask_TurnTo* UAITask_TurnTo::AITurnTo(AAIController* Controller, AActor* Goal
 	return MyTask;
 }
 
-//´¥·¢ÈÎÎñ
+//è§¦å‘ä»»åŠ¡
 void UAITask_TurnTo::Activate()
 {
 	Super::Activate();
-	//´¥·¢ÈÎÎñºó¿ªÊ¼Ğı×ª
+	//è§¦å‘ä»»åŠ¡åå¼€å§‹æ—‹è½¬
 	PerformRotate();
 }
 
-//Ö´ĞĞĞı×ªÈÎÎñ
+//æ‰§è¡Œæ—‹è½¬ä»»åŠ¡
 void UAITask_TurnTo::PerformRotate()
 {
-	//°²È«ÅĞ¶Ï
+	//å®‰å…¨åˆ¤æ–­
 	if (!OwnerController || !OwnerController->GetPawn())
 	{
 		RequestFailed();
 		return;
 	}
-	//»ñÈ¡µ±Ç°½ÇÉ«ºÍÒÆ¶¯×é¼ş
+	//è·å–å½“å‰è§’è‰²å’Œç§»åŠ¨ç»„ä»¶
 	APawn* OwnerPawn = OwnerController->GetPawn();
 	UChessMovementComponent* ChessMovementComponent = OwnerPawn->FindComponentByClass<UChessMovementComponent>();
 	if (!ChessMovementComponent)
@@ -45,24 +45,24 @@ void UAITask_TurnTo::PerformRotate()
 		RequestFailed();
 		return;
 	}
-	//Éè¶¨Ğı×ªÄ¿±ê
+	//è®¾å®šæ—‹è½¬ç›®æ ‡
 	if (GoalActor)
 		ChessMovementComponent->RotateTarget = FRotateTarget(GoalActor, StopOnDegree);
 	else if (GoalNode)
 		ChessMovementComponent->RotateTarget = FRotateTarget(GoalNode, StopOnDegree);
 	else
 		ChessMovementComponent->RotateTarget = FRotateTarget(GoalRotation, StopOnDegree);
-	//°ó¶¨Î¯ÍĞ£¬Ğı×ªÍê³Éºó£¬Íê³ÉÈÎÎñ
+	//ç»‘å®šå§”æ‰˜ï¼Œæ—‹è½¬å®Œæˆåï¼Œå®Œæˆä»»åŠ¡
 	if (!ChessMovementComponent->OnRotateComplete.IsAlreadyBound(this, &UAITask_TurnTo::RequestSuccess))
 		ChessMovementComponent->OnRotateComplete.AddDynamic(this, &UAITask_TurnTo::RequestSuccess);
 }
 
-//³É¹¦Íê³ÉÈÎÎñ
+//æˆåŠŸå®Œæˆä»»åŠ¡
 void UAITask_TurnTo::RequestSuccess()
 {
 	if (!OwnerController || !OwnerController->GetPawn())
 		return;
-	//ÒÆ³ıÎ¯ÍĞ
+	//ç§»é™¤å§”æ‰˜
 	UChessMovementComponent* ChessMovementComponent = OwnerController->GetPawn()->FindComponentByClass<UChessMovementComponent>();
 	if (ChessMovementComponent && ChessMovementComponent->OnRotateComplete.IsAlreadyBound(this, &UAITask_TurnTo::RequestSuccess))
 		ChessMovementComponent->OnRotateComplete.RemoveDynamic(this, &UAITask_TurnTo::RequestSuccess);
@@ -70,12 +70,12 @@ void UAITask_TurnTo::RequestSuccess()
 	EndTask();
 }
 
-//Ê§°ÜÍê³ÉÈÎÎñ
+//å¤±è´¥å®Œæˆä»»åŠ¡
 void UAITask_TurnTo::RequestFailed()
 {
 	if (!OwnerController || !OwnerController->GetPawn())
 		return;
-	//ÒÆ³ıÎ¯ÍĞ
+	//ç§»é™¤å§”æ‰˜
 	UChessMovementComponent* ChessMovementComponent = OwnerController->GetPawn()->FindComponentByClass<UChessMovementComponent>();
 	if (ChessMovementComponent && ChessMovementComponent->OnRotateComplete.IsAlreadyBound(this, &UAITask_TurnTo::RequestSuccess))
 		ChessMovementComponent->OnRotateComplete.RemoveDynamic(this, &UAITask_TurnTo::RequestSuccess);
@@ -83,13 +83,13 @@ void UAITask_TurnTo::RequestFailed()
 	EndTask();
 }
 
-//Ç¿ÖÆÖ´ĞĞ
+//å¼ºåˆ¶æ‰§è¡Œ
 void UAITask_TurnTo::ForceActiveTask()
 {
 	Activate();
 }
 
-//Ç¿ÖÆÊ§°Ü
+//å¼ºåˆ¶å¤±è´¥
 void UAITask_TurnTo::ForceEndTask()
 {
 	RequestSuccess();

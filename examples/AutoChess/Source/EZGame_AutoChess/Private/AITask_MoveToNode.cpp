@@ -7,38 +7,38 @@
 #include "GridMap.h"
 #include "ChessMovementComponent.h"
 
-//´´½¨Task¶ÔÏó-¾²Ì¬
+//åˆ›å»ºTaskå¯¹è±¡-é™æ€
 UAITask_MoveToNode* UAITask_MoveToNode::AIMoveTo(AAIController* Controller, UGridNode* GoalNode, AActor* GoalActor, int StopOnStep)
 {
 	if(!Controller)
 		return nullptr;
-	//´´½¨Task¶ÔÏó
+	//åˆ›å»ºTaskå¯¹è±¡
 	UAITask_MoveToNode* MyTask =  UAITask::NewAITask<UAITask_MoveToNode>(*Controller, EAITaskPriority::High);
-	//ÉèÖÃ»ù±¾ÊôĞÔ
+	//è®¾ç½®åŸºæœ¬å±æ€§
 	MyTask->ToNode = GoalNode;
 	MyTask->GoalActor = GoalActor;
 	MyTask->StopOnStep = StopOnStep;
 	return MyTask;
 }
 
-//´¥·¢ÈÎÎñ
+//è§¦å‘ä»»åŠ¡
 void UAITask_MoveToNode::Activate()
 {
 	Super::Activate();
-	//´¥·¢ÈÎÎñºó¿ªÊ¼ÒÆ¶¯
+	//è§¦å‘ä»»åŠ¡åå¼€å§‹ç§»åŠ¨
 	PerformMove();
 }
 
-//Ö´ĞĞÒÆ¶¯ÈÎÎñ
+//æ‰§è¡Œç§»åŠ¨ä»»åŠ¡
 void UAITask_MoveToNode::PerformMove()
 {
-	//°²È«ÅĞ¶Ï
+	//å®‰å…¨åˆ¤æ–­
 	if (!OwnerController || !OwnerController->GetPawn())
 	{
 		RequestFailed();
 		return;
 	}
-	//»ñÈ¡µ±Ç°½ÇÉ«ºÍÒÆ¶¯×é¼ş
+	//è·å–å½“å‰è§’è‰²å’Œç§»åŠ¨ç»„ä»¶
 	APawn* OwnerPawn = OwnerController->GetPawn();
 	UChessMovementComponent* ChessMovementComponent = OwnerPawn->FindComponentByClass<UChessMovementComponent>();
 	if (!ChessMovementComponent)
@@ -46,7 +46,7 @@ void UAITask_MoveToNode::PerformMove()
 		RequestFailed();
 		return;
 	}
-	//»ñÈ¡µ±Ç°ÆğµãºÍÖÕµã
+	//è·å–å½“å‰èµ·ç‚¹å’Œç»ˆç‚¹
 	if (GoalActor)
 	{
 		FromNode = GetGridNode(OwnerPawn);
@@ -56,7 +56,7 @@ void UAITask_MoveToNode::PerformMove()
 	{
 		FromNode = GetGridNode(OwnerPawn);
 	}
-	//ÅĞ¶ÏÆğµãÖÕµã×´Ì¬
+	//åˆ¤æ–­èµ·ç‚¹ç»ˆç‚¹çŠ¶æ€
 	if (!FromNode || !ToNode)
 	{
 		RequestFailed();
@@ -67,38 +67,38 @@ void UAITask_MoveToNode::PerformMove()
 		RequestSuccess();
 		return;
 	}
-	//½øĞĞÑ°Â·
+	//è¿›è¡Œå¯»è·¯
 	TArray<UGridNode*> Path;
 	bool tResult = FromNode->GridMap->FindPath(Path, OwnerPawn, FromNode, ToNode, StopOnStep);
-	//»Ø´«False£¬Ö±½ÓÊ§°Ü
+	//å›ä¼ Falseï¼Œç›´æ¥å¤±è´¥
 	if (!tResult)
 	{
 		RequestFailed();
 		return;
 	}
-	//»Ø´«True£¬²¢Â·¾¶µãÊıÁ¿Îª0£¬ÔòÎª³É¹¦Íê³ÉÒÆ¶¯ÈÎÎñ
+	//å›ä¼ Trueï¼Œå¹¶è·¯å¾„ç‚¹æ•°é‡ä¸º0ï¼Œåˆ™ä¸ºæˆåŠŸå®Œæˆç§»åŠ¨ä»»åŠ¡
 	if (Path.Num() == 0)
 	{
 		RequestSuccess();
 		return;
 	}
-	//ÉèÖÃÂ·¾¶
+	//è®¾ç½®è·¯å¾„
 	ChessMovementComponent->SetMovePath(Path);
-	//°ó¶¨Î¯ÍĞ£¬ÔÚÃ¿´Îµ½´ïÖĞ¼äÂ·µãºó£¬ÖØĞÂÖ´ĞĞÈÎÎñ
+	//ç»‘å®šå§”æ‰˜ï¼Œåœ¨æ¯æ¬¡åˆ°è¾¾ä¸­é—´è·¯ç‚¹åï¼Œé‡æ–°æ‰§è¡Œä»»åŠ¡
 	if (!ChessMovementComponent->OnMoveCheckPoint.IsAlreadyBound(this, &UAITask_MoveToNode::PerformMove))
 		ChessMovementComponent->OnMoveCheckPoint.AddDynamic(this, &UAITask_MoveToNode::PerformMove);
-	//°ó¶¨Î¯ÍĞ£¬µ½´ïÖÕµãºó£¬Íê³ÉÈÎÎñ
+	//ç»‘å®šå§”æ‰˜ï¼Œåˆ°è¾¾ç»ˆç‚¹åï¼Œå®Œæˆä»»åŠ¡
 	if (!ChessMovementComponent->OnMoveComplete.IsAlreadyBound(this, &UAITask_MoveToNode::RequestSuccess))
 		ChessMovementComponent->OnMoveComplete.AddDynamic(this, &UAITask_MoveToNode::RequestSuccess);
 
 }
 
-//³É¹¦Íê³ÉÈÎÎñ
+//æˆåŠŸå®Œæˆä»»åŠ¡
 void UAITask_MoveToNode::RequestSuccess()
 {
 	if (!OwnerController || !OwnerController->GetPawn())
 		return;
-	//ÒÆ³ıÎ¯ÍĞ
+	//ç§»é™¤å§”æ‰˜
 	UChessMovementComponent* ChessMovementComponent = OwnerController->GetPawn()->FindComponentByClass<UChessMovementComponent>();
 	if (ChessMovementComponent && ChessMovementComponent->OnMoveCheckPoint.IsAlreadyBound(this, &UAITask_MoveToNode::PerformMove))
 		ChessMovementComponent->OnMoveCheckPoint.RemoveDynamic(this, &UAITask_MoveToNode::PerformMove);
@@ -109,12 +109,12 @@ void UAITask_MoveToNode::RequestSuccess()
 	EndTask();
 }
 
-//Ê§°ÜÍê³ÉÈÎÎñ
+//å¤±è´¥å®Œæˆä»»åŠ¡
 void UAITask_MoveToNode::RequestFailed()
 {
 	if (!OwnerController || !OwnerController->GetPawn())
 		return;
-	//ÒÆ³ıÎ¯ÍĞ
+	//ç§»é™¤å§”æ‰˜
 	UChessMovementComponent* ChessMovementComponent = OwnerController->GetPawn()->FindComponentByClass<UChessMovementComponent>();
 	if (ChessMovementComponent && ChessMovementComponent->OnMoveCheckPoint.IsAlreadyBound(this, &UAITask_MoveToNode::PerformMove))
 		ChessMovementComponent->OnMoveCheckPoint.RemoveDynamic(this, &UAITask_MoveToNode::PerformMove);
@@ -125,12 +125,12 @@ void UAITask_MoveToNode::RequestFailed()
 	EndTask();
 }
 
-//»ñÈ¡½ÇÉ«µ±Ç°Æå¸ñ
+//è·å–è§’è‰²å½“å‰æ£‹æ ¼
 UGridNode* UAITask_MoveToNode::GetGridNode(AActor* InActor, bool bIncldeBookNode) const
 {
 	if (!InActor)
 		return nullptr;
-	//»ñÈ¡ÒÆ¶¯×é¼şµÄNowNode
+	//è·å–ç§»åŠ¨ç»„ä»¶çš„NowNode
 	UChessMovementComponent* ChessMovementComponent = InActor->FindComponentByClass<UChessMovementComponent>();
 	if (!ChessMovementComponent)
 		return nullptr;
@@ -140,13 +140,13 @@ UGridNode* UAITask_MoveToNode::GetGridNode(AActor* InActor, bool bIncldeBookNode
 		return ChessMovementComponent->NowNode;
 }
 
-//Ç¿ÖÆÖ´ĞĞ
+//å¼ºåˆ¶æ‰§è¡Œ
 void UAITask_MoveToNode::ForceActiveTask()
 {
 	Activate();
 }
 
-//Ç¿ÖÆÊ§°Ü
+//å¼ºåˆ¶å¤±è´¥
 void UAITask_MoveToNode::ForceEndTask()
 {
 	RequestSuccess();

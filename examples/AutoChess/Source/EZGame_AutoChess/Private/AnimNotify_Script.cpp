@@ -6,13 +6,13 @@
 void UAnimNotify_Script::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {
 	Super::Notify(MeshComp, Animation);
-	//安全判断
+	//瀹夊叏鍒ゆ柇
 	if (!MeshComp)
 		return;
 	AActor* tActor = MeshComp->GetOwner();
 	if (tActor)
 	{
-		//使用反射，根据函数名调用函数
+		//浣跨敤鍙嶅皠锛屾牴鎹嚱鏁板悕璋冪敤鍑芥暟
 		UFunction* tFunc = tActor->FindFunction(FunctionName);
 		if (tFunc)
 			tActor->ProcessEvent(tFunc, nullptr);

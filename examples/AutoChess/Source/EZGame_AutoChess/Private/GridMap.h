@@ -16,118 +16,118 @@ class AGridMap : public AActor
 	GENERATED_BODY()
 
 protected:
-	//»ù´¡-BeginPlay-¸²¸Ç
+	//åŸºç¡€-BeginPlay-è¦†ç›–
 	virtual void BeginPlay() override;
 
-	//»ù´¡-³õÊ¼»¯ÊôĞÔ-¸²¸Ç
+	//åŸºç¡€-åˆå§‹åŒ–å±æ€§-è¦†ç›–
 	virtual void PostInitProperties() override;
 
 #if WITH_EDITOR
-	//»ù´¡-ÔÚEditorÖĞĞŞ¸ÄÊôĞÔ-¸²¸Ç
+	//åŸºç¡€-åœ¨Editorä¸­ä¿®æ”¹å±æ€§-è¦†ç›–
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
 
 public:
-	//»ù´¡-¹¹Ôìº¯Êı
+	//åŸºç¡€-æ„é€ å‡½æ•°
 	AGridMap();
 
-	//»ù´¡-ÆåÅÌĞÎ×´
+	//åŸºç¡€-æ£‹ç›˜å½¢çŠ¶
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EGridType MapType = EGridType::None;
 
-	//»ù´¡-ÆåÅÌµ¥Î»´óĞ¡
+	//åŸºç¡€-æ£‹ç›˜å•ä½å¤§å°
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Size;
 
-	//»ù´¡-ÆåÅÌĞĞÊı
+	//åŸºç¡€-æ£‹ç›˜è¡Œæ•°
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int Roll;
 
-	//»ù´¡-ÆåÅÌÁĞÊı
+	//åŸºç¡€-æ£‹ç›˜åˆ—æ•°
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int Colume;
 
-	//»ù´¡-ÆåÅÌµÄÆå¸ñ
+	//åŸºç¡€-æ£‹ç›˜çš„æ£‹æ ¼
 	UPROPERTY()
 	TMap<FGridVector, UGridNode*> NodeMap;
 
-	//»ù´¡-Éú³ÉÆåÅÌ
+	//åŸºç¡€-ç”Ÿæˆæ£‹ç›˜
 	UFUNCTION(BlueprintCallable)
 	void GenerateGridMap();
 
-	//»ù´¡-Éú³ÉÆå¸ñÈë¿Ú
+	//åŸºç¡€-ç”Ÿæˆæ£‹æ ¼å…¥å£
 	UFUNCTION()
 	void GenerateNodes(float InSize, int InRoll, int InColume);
 
-	//»ù´¡-Éú³ÉÁù±ßĞÎÆå¸ñ
+	//åŸºç¡€-ç”Ÿæˆå…­è¾¹å½¢æ£‹æ ¼
 	UFUNCTION()
 	void GenerateHexNodes(float InHexSize, int InRoll, int InColume);
 
-	//»ù´¡-³õÊ¼»¯Æå¸ñÈë¿Ú
+	//åŸºç¡€-åˆå§‹åŒ–æ£‹æ ¼å…¥å£
 	UFUNCTION()
 	void InitNodes();
 
-	//»ù´¡-³õÊ¼»¯Áù±ßĞÎÆå¸ñ
+	//åŸºç¡€-åˆå§‹åŒ–å…­è¾¹å½¢æ£‹æ ¼
 	UFUNCTION()
 	void InitHexNodes();
 
-	//»ù´¡-»ñÈ¡×ø±êÆå¸ñ
+	//åŸºç¡€-è·å–åæ ‡æ£‹æ ¼
 	UFUNCTION(BlueprintCallable)
 	UGridNode* GetNode(FGridVector InCoord) const;
 
-	//Ñ°Â·-A*Ñ°ÕÒÂ·¾¶
+	//å¯»è·¯-A*å¯»æ‰¾è·¯å¾„
 	UFUNCTION(BlueprintCallable)
 	bool FindPath(TArray<UGridNode*>& Path, AActor* InActor, UGridNode* FromNode, UGridNode* ToNode, int StopSteps = 0);
 
-	//Ñ°Â·-ÊÇ·ñ´æÔÚÂ·¾¶
+	//å¯»è·¯-æ˜¯å¦å­˜åœ¨è·¯å¾„
 	UFUNCTION(BlueprintCallable)
 	bool IsPathExist(AActor* InActor, UGridNode* FromNode, UGridNode* ToNode, int StopSteps = 0);
 
-	//Ñ°Â·-»ñÈ¡Ä¿±êµã·¶Î§ÄÚµÄÆå¸ñ
+	//å¯»è·¯-è·å–ç›®æ ‡ç‚¹èŒƒå›´å†…çš„æ£‹æ ¼
 	UFUNCTION()
 	TArray<UGridNode*> GetNodeNeighbors(UGridNode* InNode, int InStep = 0) const;
 
-	//Ä£ĞÍ-ÆåÅÌÄ£ĞÍ
+	//æ¨¡å‹-æ£‹ç›˜æ¨¡å‹
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UProceduralMeshComponent* Mesh;
 
-	//Ä£ĞÍ-Í¨ĞĞ²ÄÖÊ
+	//æ¨¡å‹-é€šè¡Œæè´¨
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UMaterialInterface* PassMaterial;
 
-	//Ä£ĞÍ-×èµ²²ÄÖÊ
+	//æ¨¡å‹-é˜»æŒ¡æè´¨
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UMaterialInterface* BlockMaterial;
 
-	//Ä£ĞÍ-×èµ²²ÄÖÊ1
+	//æ¨¡å‹-é˜»æŒ¡æè´¨1
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UMaterialInterface* DebugMaterial1;
 
-	//Ä£ĞÍ-×èµ²²ÄÖÊ2
+	//æ¨¡å‹-é˜»æŒ¡æè´¨2
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UMaterialInterface* DebugMaterial2;
 
-	//Ä£ĞÍ-Éú³ÉÆåÅÌÄ£ĞÍ
+	//æ¨¡å‹-ç”Ÿæˆæ£‹ç›˜æ¨¡å‹
 	UFUNCTION(BlueprintCallable)
 	void GenerateMapMesh();
 
-	//Ä£ĞÍ-ÉèÖÃÆå¸ñ²ÄÖÊ
+	//æ¨¡å‹-è®¾ç½®æ£‹æ ¼æè´¨
 	UFUNCTION(BlueprintCallable)
 	void SetNodeMaterial(UGridNode* InNode, UMaterialInterface* InMaterial);
 
-	//Ä£ĞÍ-ÖØÖÃÆå¸ñ²ÄÖÊ
+	//æ¨¡å‹-é‡ç½®æ£‹æ ¼æè´¨
 	UFUNCTION(BlueprintCallable)
 	void ResetNodeMaterial(UGridNode* InNode);
 
-	//Ä£ĞÍ-ÖØÖÃËùÓĞÆå¸ñ²ÄÖÊ
+	//æ¨¡å‹-é‡ç½®æ‰€æœ‰æ£‹æ ¼æè´¨
 	UFUNCTION(BlueprintCallable)
 	void ResetNodeMaterialAll();
 
-	//»ù´¡-ÅĞ¶ÏÊÇ·ñÔÚÆå¸ñÄÚ
+	//åŸºç¡€-åˆ¤æ–­æ˜¯å¦åœ¨æ£‹æ ¼å†…
 	UFUNCTION(BlueprintCallable)
 	UGridNode* CheckHitNode(FVector InPosition);
 
-	//»ù´¡-ÅĞ¶ÏÊÇ·ñÔÚÁù±ßĞÎÆå¸ñÄÚ
+	//åŸºç¡€-åˆ¤æ–­æ˜¯å¦åœ¨å…­è¾¹å½¢æ£‹æ ¼å†…
 	UFUNCTION()
 	UGridNode* CheckHitHexNode(FVector InPosition);
 };
