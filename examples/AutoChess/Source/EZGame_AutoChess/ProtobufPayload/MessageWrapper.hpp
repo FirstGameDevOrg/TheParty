@@ -130,7 +130,7 @@ public:
 	auto setResponseStatus(int32_t responsestatus) {
 		return message_.set_responsestatus(responsestatus);
 	}
-	auto reponseStatus() const {
+	auto responsestatus() const {
 		return message_.responsestatus();
 	}
 

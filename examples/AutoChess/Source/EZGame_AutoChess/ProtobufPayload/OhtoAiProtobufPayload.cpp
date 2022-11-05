@@ -34,6 +34,45 @@ void UOhtoAiProtobufPayload::ParseUserInfoPayload(const TArray<uint8>& Payload, 
 	id = userInfo.id();
 }
 
+void UOhtoAiProtobufPayload::GetRouterFromPayloadClass(const FString& PayloadClass, int32& cmdCode)
+{
+	cmdCode = CommandRouterMap::instance().router(TCHAR_TO_UTF8(*PayloadClass), { 0,0 });
+}
+
+void UOhtoAiProtobufPayload::MergeRouter(int high, int low, int32& cmdCode)
+{
+	cmdCode = CommandRouter{ static_cast<int16>(high), static_cast<int16>(low) };
+}
+
+void UOhtoAiProtobufPayload::ParseExternalMessage(const TArray<uint8>& Payload, int32& cmdCode, int32& protocolSwitch, int32& cmdMerge, int32& responseStatus, FString& validMsg, TArray<uint8>& data)
+{
+	MessageWrapper wrapper;
+	wrapper.parseFromString(std::string(reinterpret_cast<const char*>(Payload.GetData()), Payload.Num()));
+	
+	cmdCode = wrapper.cmdCode();
+	protocolSwitch = wrapper.protocolSwitch();
+	cmdMerge = wrapper.cmdMerge();
+	responseStatus = wrapper.responsestatus();
+	validMsg = UTF8_TO_TCHAR(wrapper.validMsg().c_str());
+	data = TArray<uint8>{ reinterpret_cast<const uint8*>(wrapper.data().data()), static_cast<int32>(wrapper.data().length()) };
+}
+
+void UOhtoAiProtobufPayload::SerializeUserRegisterPayload(FString mail, FString username, FString password, TArray<uint8>& Payload)
+{
+	//using pb::socket::UserRegister;
+	//UserRegister userRegister;
+	//userRegister.set_mail(TCHAR_TO_UTF8(*mail));
+	//userRegister.set_username(TCHAR_TO_UTF8(*username));
+	//userRegister.set_password(TCHAR_TO_UTF8(*password));
+
+	//MessageWrapper wrapper;
+	//wrapper.setPayload(userRegister);
+	//wrapper.setRouter(CommandRouter{ 15, 0 });
+	////wrapper.setCmdCode(1);
+	//auto buffer = wrapper.serializeAsString();
+	//payload = TArray<uint8>{ reinterpret_cast<const uint8*>(buffer.data()), static_cast<int32>(buffer.length()) };
+}
+
 void UOhtoAiProtobufPayload::HexEncode(const TArray<uint8>& Bytes, FString& String)
 {
 	String.Empty();
