@@ -14,4 +14,4 @@ jobs:
     - name: Notice
       run: |
         message="{\"msg_type\":\"post\",\"content\":{\"post\":{\"zh_cn\":{\"title\":\"Github动态 ${{github.repository}}\",\"content\":[[{\"tag\":\"text\",\"text\":\"${{github.actor}} \"},{\"tag\":\"text\",\"text\":\"${{github.event_name}} to \"},{\"tag\":\"a\",\"text\":\"${{github.repository}}\",\"href\":\"https://github.com/${{github.repository}}\"},{\"tag\":\"text\",\"text\":\"/[${{github.ref_type}}]${{github.ref_name}}\"}]]}}}}"
-        curl -X POST -H "Content-Type: application/json" -d "$message" ${{secrets.FEISHU_ROBOT_HOOK}}
+        # curl -X POST -H "Content-Type: application/json" -d "$message" ${{secrets.FEISHU_ROBOT_HOOK}}
