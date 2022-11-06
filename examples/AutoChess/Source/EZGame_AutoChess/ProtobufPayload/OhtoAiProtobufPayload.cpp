@@ -23,18 +23,23 @@ void UOhtoAiProtobufPayload::SerializeUserLoginPayload(FString username, FString
 	payload = TArray<uint8>{ reinterpret_cast<const uint8*>(buffer.data()), static_cast<int32>(buffer.length()) };
 }
 
-void UOhtoAiProtobufPayload::ParseUserInfoPayload(const TArray<uint8>& Payload, FString& username, int64& id, FString& jwt)
+void UOhtoAiProtobufPayload::ParseUserInfo(const TArray<uint8>& data, FString& username, int64& id, FString& jwt)
 {
-	MessageWrapper wrapper;
-	wrapper.parseFromString(std::string(reinterpret_cast<const char*>(Payload.GetData()), Payload.Num()));
-	auto userInfo = wrapper.object<pb::socket::UserInfo>();
+	pb::socket::UserInfo userInfo;
+	userInfo.ParseFromArray(data.GetData(), data.Num());
 
 	username = UTF8_TO_TCHAR(userInfo.name().c_str());
 	jwt = UTF8_TO_TCHAR(userInfo.jwt().c_str());
 	id = userInfo.id();
 }
 
-void UOhtoAiProtobufPayload::GetRouterFromPayloadClass(const FString& PayloadClass, int32& cmdCode)
+
+void UOhtoAiProtobufPayload::HasRouter(const FString& PayloadClass, bool& hasRouter)
+{
+	hasRouter = CommandRouterMap::instance().contains(TCHAR_TO_UTF8(*PayloadClass));
+}
+
+void UOhtoAiProtobufPayload::GetRouter(const FString& PayloadClass, int32& cmdCode)
 {
 	cmdCode = CommandRouterMap::instance().router(TCHAR_TO_UTF8(*PayloadClass), { 0,0 });
 }
@@ -55,22 +60,6 @@ void UOhtoAiProtobufPayload::ParseExternalMessage(const TArray<uint8>& Payload, 
 	responseStatus = wrapper.responsestatus();
 	validMsg = UTF8_TO_TCHAR(wrapper.validMsg().c_str());
 	data = TArray<uint8>{ reinterpret_cast<const uint8*>(wrapper.data().data()), static_cast<int32>(wrapper.data().length()) };
-}
-
-void UOhtoAiProtobufPayload::SerializeUserRegisterPayload(FString mail, FString username, FString password, TArray<uint8>& Payload)
-{
-	//using pb::socket::UserRegister;
-	//UserRegister userRegister;
-	//userRegister.set_mail(TCHAR_TO_UTF8(*mail));
-	//userRegister.set_username(TCHAR_TO_UTF8(*username));
-	//userRegister.set_password(TCHAR_TO_UTF8(*password));
-
-	//MessageWrapper wrapper;
-	//wrapper.setPayload(userRegister);
-	//wrapper.setRouter(CommandRouter{ 15, 0 });
-	////wrapper.setCmdCode(1);
-	//auto buffer = wrapper.serializeAsString();
-	//payload = TArray<uint8>{ reinterpret_cast<const uint8*>(buffer.data()), static_cast<int32>(buffer.length()) };
 }
 
 void UOhtoAiProtobufPayload::HexEncode(const TArray<uint8>& Bytes, FString& String)
