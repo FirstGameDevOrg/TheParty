@@ -6,7 +6,7 @@ public class Protobuf : ModuleRules
     public Protobuf(ReadOnlyTargetRules Target) : base(Target)
     {
         Type = ModuleType.External;
-        
+
         PublicDefinitions.Add("PROTOBUF_ENABLE_DEBUG_LOGGING_MAY_LEAK_PII=1");
         PublicDefinitions.Add("PROTOBUF_BUILTIN_ATOMIC=1");
         PublicDefinitions.Add("_CRT_SECURE_NO_WARNINGS");
