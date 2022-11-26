@@ -37,7 +37,7 @@ void UOhtoAiWebSocketSession::Connect()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 9.0f, FColor::Red
 			, FString::Printf(TEXT("UOhtoAiWebSocketSession nullptr != m_NativeSocket")));
-		return;
+		//return;
 	}
 	m_NativeSocket = FWebSocketsModule::Get().CreateWebSocket(m_Url);
 	m_NativeSocket->OnConnected().AddUObject(this, &UOhtoAiWebSocketSession::OnConnected);
