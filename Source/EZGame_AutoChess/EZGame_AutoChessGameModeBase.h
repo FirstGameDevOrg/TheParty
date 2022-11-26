@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class EZGAME_AUTOCHESS_API AEZGame_AutoChessGameModeBase : public AGameModeBase
+class THEPARTY_API AEZGame_AutoChessGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	

@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class EZGAME_AUTOCHESS_API UOhtoAiProtobufPayload : public UBlueprintFunctionLibrary
+class THEPARTY_API UOhtoAiProtobufPayload : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public:

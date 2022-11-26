@@ -13,7 +13,7 @@ class IWebSocket;
  * 
  */
 UCLASS(BlueprintType, Blueprintable)
-class EZGAME_AUTOCHESS_API UOhtoAiWebSocketSession : public UBlueprintAsyncActionBase
+class THEPARTY_API UOhtoAiWebSocketSession : public UBlueprintAsyncActionBase
 {
 	GENERATED_BODY()
 	
